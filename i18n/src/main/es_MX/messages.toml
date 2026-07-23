@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Freecam ha sido habilitado."
 disabled = "Freecam ha sido deshabilitado."
 invalidRegex = "Regex inválido: %s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "Abriendo cámara %s"
   close = "Cerrando cámara %s"
   reset = "Restablecer cámara %s"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "Freecam está restringido en el servidor actual (%s)."

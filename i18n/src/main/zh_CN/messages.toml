@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Freecam 已启用。"
 disabled = "Freecam 已禁用。"
 invalidRegex = "无效的正则表达式：%s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "启用视角 %s"
   close = "禁用视角 %s"
   reset = "重置视角 %s"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "Freecam 在本服务器禁止使用。（%s）"

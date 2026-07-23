@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Freecam har aktiverats."
 disabled = "Freecam har inaktiverats."
 invalidRegex = "Ogiltig regex: %s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "Öppnar kamera %s"
   close = "Stänger kamera %s"
   reset = "Återställ kamera %s"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "Freecam är begränsad på den aktuella servern (%s)."

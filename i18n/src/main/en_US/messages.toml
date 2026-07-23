@@ -1,4 +1,4 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Freecam has been enabled."
 disabled = "Freecam has been disabled."
 tripod.open = "Opening camera %s"

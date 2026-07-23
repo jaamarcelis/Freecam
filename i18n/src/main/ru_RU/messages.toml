@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Свободная камера включена."
 disabled = "Freecam выключен."
 invalidRegex = "Недопустимое регулярное выражение: %s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "Открытие камеры %s"
   close = "Закрытие камеры %s"
   reset = "Сбросить камеру %s"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "Свободная камера недоступна на этом сервере (%s)."

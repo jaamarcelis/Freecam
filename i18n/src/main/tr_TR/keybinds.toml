@@ -1,17 +1,17 @@
 [key.category.freecam]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Freecam Aç/Kapa"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Oyuncuyu Kontrol Et"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Tripodu Sıfırla"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Ayar Arayüzü"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Toggle Outline Player"

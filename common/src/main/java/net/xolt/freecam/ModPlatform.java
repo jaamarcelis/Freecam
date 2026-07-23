@@ -19,7 +19,7 @@ public interface ModPlatform {
     final class Holder {
         private Holder() {}
 
-        private static final Logger LOGGER = LoggerFactory.getLogger("Freecam/ModPlatform");
+        private static final Logger LOGGER = LoggerFactory.getLogger("KbFC/ModPlatform");
         private static final ModPlatform INSTANCE;
 
         static {

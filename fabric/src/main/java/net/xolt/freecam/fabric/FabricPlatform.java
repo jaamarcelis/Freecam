@@ -8,5 +8,6 @@ public class FabricPlatform implements ModPlatform {
     @Override
     public boolean isModLoaded(String modId) {
         return FabricLoader.getInstance().isModLoaded(modId);
+        //test
     }
 }
