@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Перемкнути Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Керувати гравцем"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Скинути штатив"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Налаштувати інтерфейс"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Перемкнути Окреслення Гравця"

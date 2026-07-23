@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Alternar Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Controlar Jugador"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Restablecer Trípode"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "GUI de configuración"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Toggle Outline Player"

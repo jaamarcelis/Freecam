@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Freecam Umschalten"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Spieler Kontrollieren"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Stativ zurücksetzen"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Konfigurationsmenü"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Kontur-Player umschalten"

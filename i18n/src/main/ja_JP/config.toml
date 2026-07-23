@@ -1,75 +1,75 @@
-[freecam.config.gui]
+[kbfc.config.gui]
 title = "Freecamのオプション"
 
-  [freecam.config.gui.fallback]
+  [kbfc.config.gui.fallback]
   title = "コンフィグGUIが利用できません。"
 
-[freecam.config.controls]
+[kbfc.config.controls]
 label = "キー割り当て"
 tooltip = "Freecamのキー割り当て。"
 
-[freecam.config.movement]
+[kbfc.config.movement]
 label = "移動オプション"
 tooltip = "カメラの動き方。"
 
-  [freecam.config.movement.flightMode]
+  [kbfc.config.movement.flightMode]
   label = "飛行モード"
   tooltip = "Freecamが使用するフライトのタイプ。"
   DEFAULT = "デフォルト"
   CREATIVE = "クリエイティブ"
 
-  [freecam.config.movement.speed]
+  [kbfc.config.movement.speed]
   value = "値: %01.2f"
 
-    [freecam.config.movement.speed.horizontal]
+    [kbfc.config.movement.speed.horizontal]
     label = "水平速度"
     tooltip = "Freecamの水平速度。"
 
-    [freecam.config.movement.speed.vertical]
+    [kbfc.config.movement.speed.vertical]
     label = "垂直速度"
     tooltip = "Freecamの垂直速度。"
 
-[freecam.config.collision]
+[kbfc.config.collision]
 label = "衝突オプション"
 tooltip = "Freecamで移動可能なブロック。"
 
-  [freecam.config.collision.ignoreAll]
+  [kbfc.config.collision.ignoreAll]
   label = "すべての衝突を無視する"
   "tooltip[0]" = "Freecamのすべてのブロックを通過できるようにする。"
   "tooltip[1]" = "§e上記の設定を上書きします。"
 
-  [freecam.config.collision.ignoreTransparent]
+  [kbfc.config.collision.ignoreTransparent]
   label = "透明ブロックを無視する"
   tooltip = "Freecamで透明なブロックを通過できるようにする。"
 
-  [freecam.config.collision.ignoreOpenable]
+  [kbfc.config.collision.ignoreOpenable]
   label = "開閉可能なブロックを無視する"
   tooltip = "Freecamでドア/トラップドア/ゲートを通過できるようにする。"
 
-  [freecam.config.collision.ignoreCustom]
+  [kbfc.config.collision.ignoreCustom]
   label = "カスタム無視リスト"
   tooltip = "Freecamで特定のブロックを移動できるようにする。"
 
-[freecam.config.collision.whitelist.ids]
+[kbfc.config.collision.whitelist.ids]
 label = "IDを無視する"
 "tooltip[0]" = '例えば "grass_block" のようにブロックIDを使用します。'
 "tooltip[1]" = '名前空間が省略された場合、"minecraft:" と仮定されます。'
 
-[freecam.config.collision.whitelist.patterns]
+[kbfc.config.collision.whitelist.patterns]
 label = "正規表現を無視する"
 "tooltip[0]" = "正規表現を使用する"
 "tooltip[1]" = '"minecraft:grass_block" などのフルブロック ID と一致しました。'
 
-  [freecam.config.collision.alwaysCheck]
+  [kbfc.config.collision.alwaysCheck]
   label = "初期衝突を常にチェックする"
   "tooltip[0]" = "§7すべての衝突を無視§r を使用している場合でも、"
   "tooltip[1]" = "§7初期視点§r で衝突をチェックするかどうか。"
 
-[freecam.config.visual]
+[kbfc.config.visual]
 label = "ビジュアルオプション"
 tooltip = "Freecamの外観。"
 
-  [freecam.config.visual.perspective]
+  [kbfc.config.visual.perspective]
   label = "初期視点"
   tooltip = "カメラの初期視点。"
   FIRST_PERSON = "一人称"
@@ -77,56 +77,56 @@ tooltip = "Freecamの外観。"
   THIRD_PERSON_MIRROR = "ミラー"
   INSIDE = "内部"
 
-  [freecam.config.visual.showPlayer]
+  [kbfc.config.visual.showPlayer]
   label = "プレーヤーを表示"
   tooltip = "プレーヤーを元の位置に表示します。"
 
-  [freecam.config.visual.showHand]
+  [kbfc.config.visual.showHand]
   label = "手を表示"
   tooltip = "Freecamで自分の手が見えるかどうか。"
 
-  [freecam.config.visual.fullBright]
+  [kbfc.config.visual.fullBright]
   label = "最大の明るさ"
   tooltip = "Freecam時の明るさを上げる。"
 
-  [freecam.config.visual.showSubmersionFog]
+  [kbfc.config.visual.showSubmersionFog]
   label = "水没霧を表示"
   tooltip = "水中、溶岩、または粉雪の中で霧がかかっているのが見えるかどうか。"
 
-  [freecam.config.visual.outlinePlayer]
+  [kbfc.config.visual.outlinePlayer]
   label = "アウトラインプレイヤー"
   "tooltip[0]" = "フリーカムを有効にすると、プレイヤーにアウトラインを適用します。"
   "tooltip[1]" = "アウトラインは、「トグルプレーヤーアウトライン」キーバインドを使用して制御することもできます。"
 
-[freecam.config.utility]
+[kbfc.config.utility]
 label = "ユーティリティオプション"
 tooltip = "Freecamの機能強化。"
 
-  [freecam.config.utility.disableOnDamage]
+  [kbfc.config.utility.disableOnDamage]
   label = "ダメージ時に無効化"
   tooltip = "ダメージを受けるとFreecamが無効になります。"
 
-  [freecam.config.utility.freezePlayer]
+  [kbfc.config.utility.freezePlayer]
   label = "フリーズプレイヤー"
   "tooltip[0]" = "フリーカムがアクティブな間、プレーヤーの移動を防ぎます。"
   "tooltip[1]" = "§c警告: マルチプレイヤーでの使用はお勧めしません。"
 
-[freecam.config.utility.interact.allow]
+[kbfc.config.utility.interact.allow]
 label = "インタラクションを許可する"
 "tooltip[0]" = "Freecamでブロック/エンティティを操作できるかどうか。"
 "tooltip[1]" = "§c警告: マルチプレイヤーでの使用はお勧めしません。"
 
-[freecam.config.utility.interact.mode]
+[kbfc.config.utility.interact.mode]
 label = "インタラクションモード"
 tooltip = "ブロック/エンティティ相互作用のソース。"
 CAMERA = "カメラ"
 PLAYER = "プレーヤー"
 
-[freecam.config.servers]
+[kbfc.config.servers]
 label = "マルチプレイヤーオプション"
 tooltip = "マルチプレイヤーサーバーに関するオプション。"
 
-  [freecam.config.servers.mode]
+  [kbfc.config.servers.mode]
   label = "制限モード"
   "tooltip[0]" = "特定のサーバーでのfreecamの使用を許可しません。"
   "tooltip[1]" = "(ホワイトリストまたはブラックリストを使用。)"
@@ -134,20 +134,20 @@ tooltip = "マルチプレイヤーサーバーに関するオプション。"
   WHITELIST = "ホワイトリスト"
   BLACKLIST = "ブラックリスト"
 
-  [freecam.config.servers.whitelist]
+  [kbfc.config.servers.whitelist]
   label = "ホワイトリスト:"
 
-  [freecam.config.servers.blacklist]
+  [kbfc.config.servers.blacklist]
   label = "ブラックリスト:"
 
-[freecam.config.notification]
+[kbfc.config.notification]
 label = "通知オプション"
 tooltip = "通知を表示または非表示にします。"
 
-  [freecam.config.notification.freecam]
+  [kbfc.config.notification.freecam]
   label = "Freecam通知"
   tooltip = "Freecamへの入室/退室を通知します。"
 
-  [freecam.config.notification.tripod]
+  [kbfc.config.notification.tripod]
   label = "三脚の通知"
   tooltip = "三脚カメラへの入室/退室を通知します。"

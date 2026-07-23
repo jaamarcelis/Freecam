@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Переключить Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Управлять игроком"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Сбросить штатив"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Настроить интерфейс"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Вкл/Выкл Игрока"

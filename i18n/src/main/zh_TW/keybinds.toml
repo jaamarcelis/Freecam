@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "切換 Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "控制玩家"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "重設三腳架"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "設定 GUI"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Toggle Outline Player"

@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Attiva/Disattiva la freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Controlla il giocatore"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Resetta treppiedi"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "GUI di Configurazione"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Attiva/Disattiva Riproduttore Contorno"

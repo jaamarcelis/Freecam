@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "自由视角(Freecam)"
 
-[key.freecam]
+[key.kbfc]
 toggle = "切换自由视角(Freecam)"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "控制玩家"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "重置视角"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "打开GUI"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "切换大纲播放器"

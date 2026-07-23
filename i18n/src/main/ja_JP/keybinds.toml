@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Freecamの切り替え"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "プレーヤーコントロール"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "三脚のリセット"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "コンフィグ GUI"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "アウトラインプレイヤーの切り替え"

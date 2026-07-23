@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.kbfc]
 controls = "فري كام"
 
-[key.freecam]
+[key.kbfc]
 toggle = "تبديل فري كام"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "تحكم اللاعب"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "ضبت الترايبود"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "قائمة الضبط"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Toggle Outline Player"
