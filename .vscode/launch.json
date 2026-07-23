@@ -1,0 +1,165 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Forge Client (:forge:1.17.1)",
+      "presentation": {
+        "group": "Mod Development - 1.17.1",
+        "order": 0
+      },
+      "projectName": "forge-1.17.1",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.17.1\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.17.1\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.17.1\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\versions\\1.17.1\\run",
+      "env": {
+        "MOD_CLASSES": "freecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.17.1\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Forge Client (:forge:1.18.2)",
+      "presentation": {
+        "group": "Mod Development - 1.18.2",
+        "order": 0
+      },
+      "projectName": "forge-1.18.2",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.18.2\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.18.2\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.18.2\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\versions\\1.18.2\\run",
+      "env": {
+        "MOD_CLASSES": "freecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.18.2\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Forge Client (:forge:1.19.4)",
+      "presentation": {
+        "group": "Mod Development - 1.19.4",
+        "order": 0
+      },
+      "projectName": "forge-1.19.4",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.19.4\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\forge\\versions\\1.19.4\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.19.4\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\forge\\versions\\1.19.4\\run",
+      "env": {
+        "MOD_CLASSES": "freecam%%C:\\Sources\\prive\\Freecam\\forge\\versions\\1.19.4\\bin\\main"
+      },
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "NeoForge Client (:neoforge:1.20.6)",
+      "presentation": {
+        "group": "Mod Development - 1.20.6",
+        "order": 0
+      },
+      "projectName": "neoforge-1.20.6",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.20.6\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.20.6\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.20.6\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\neoforge\\versions\\1.20.6\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "NeoForge Client (:neoforge:1.21.11)",
+      "presentation": {
+        "group": "Mod Development - 1.21.11",
+        "order": 0
+      },
+      "projectName": "neoforge-1.21.11",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.21.11\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.21.11\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\neoforge\\versions\\1.21.11\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\neoforge\\versions\\1.21.11\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "NeoForge Client (:neoforge:26.1)",
+      "presentation": {
+        "group": "Mod Development - 26.1",
+        "order": 0
+      },
+      "projectName": "neoforge-26.1",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.1\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.1\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.1\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\neoforge\\versions\\26.1\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "NeoForge Client (:neoforge:26.2)",
+      "presentation": {
+        "group": "Mod Development - 26.2",
+        "order": 0
+      },
+      "projectName": "neoforge-26.2",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.2\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.2\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dfreecam%%C:\\Sources\\prive\\Freecam\\neoforge\\versions\\26.2\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\neoforge\\versions\\26.2\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}
