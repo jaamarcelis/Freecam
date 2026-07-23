@@ -19,7 +19,7 @@ public class FreecamKeyMappingBuilder {
     /**
      * Start building a {@link FreecamKeyMapping key} with the translation key provided.
      *
-     * @param translationKey key to be appended onto {@code "key.freecam."}
+     * @param translationKey key to be appended onto {@code "key.kbfc."}
      * @return a {@link FreecamKeyMapping} builder
      */
     public static FreecamKeyMappingBuilder builder(String translationKey) {

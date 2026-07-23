@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class FreecamKeyMapping extends KeyMapping implements Tickable {
 
     //? if >=1.21.11 {
-    private static final Category FREECAM_CATEGORY = Category.register(Identifier.fromNamespaceAndPath("freecam", "controls"));
+    private static final Category FREECAM_CATEGORY = Category.register(Identifier.fromNamespaceAndPath("kbfc", "controls"));
     //? } else
     //private static final String FREECAM_CATEGORY = "key.category.freecam.controls";
 
@@ -23,7 +23,7 @@ public class FreecamKeyMapping extends KeyMapping implements Tickable {
     }
 
     FreecamKeyMapping(String translationKey, InputConstants.Type type, int code, Consumer<FreecamKeyMapping> onTick) {
-        super("key.freecam." + translationKey, type, code, FREECAM_CATEGORY);
+        super("key.kbfc." + translationKey, type, code, FREECAM_CATEGORY);
         this.onTick = onTick;
     }
 

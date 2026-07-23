@@ -1,17 +1,17 @@
 [key.category.freecam]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Włącz/Wyłącz Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Kontroluj Gracza"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Resetowanie Statywu"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "GUI Konfiguracji"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Przełącz gracza obrysowego"

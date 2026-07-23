@@ -1,17 +1,17 @@
 [key.category.freecam]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Basculer la caméra libre"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Contrôler le joueur"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Réinitialiser le tripode"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Interface de configuration"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Activer/désactiver le lecteur de contour"

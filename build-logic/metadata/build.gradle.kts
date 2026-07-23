@@ -16,7 +16,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("modMetadata") {
-            id = "freecam.modmetadata"
+            id = "kbfc.modmetadata"
             implementationClass = "net.xolt.freecam.gradle.ModMetadataPlugin"
         }
     }

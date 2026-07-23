@@ -1,7 +1,7 @@
 [key.category]
 freecam.controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Toggle Freecam"
 controlPlayer.toggle = "Control Player"
 tripod.reset = "Reset Tripod"

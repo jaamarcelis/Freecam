@@ -1,17 +1,17 @@
 [key.category.freecam]
 controls = "Freecam"
 
-[key.freecam]
+[key.kbfc]
 toggle = "Alternar Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.kbfc.controlPlayer]
   toggle = "Controlar Jogador"
 
-  [key.freecam.tripod]
+  [key.kbfc.tripod]
   reset = "Redefinir Tripé"
 
-  [key.freecam.config]
+  [key.kbfc.config]
   open = "Interface de definições"
 
-  [key.freecam.outlinePlayer]
+  [key.kbfc.outlinePlayer]
   toggle = "Alternar Contorno de Jogador"

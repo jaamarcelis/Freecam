@@ -1,6 +1,6 @@
 [mod]
 name = "Freecam"
-id = "freecam"
+id = "kbfc"
 group = "net.xolt.freecam"
 # Version can specify a semver pre-release, e.g. -alpha.1
 # Remember to run :changelog:patchChangelog when updating

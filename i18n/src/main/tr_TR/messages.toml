@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "Freecam açıldı."
 disabled = "Freecam kapatıldı."
 invalidRegex = "Geçersiz düzenli ifade: %s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "%s kamerası açılıyor"
   close = "Kamera %s kapatıldı"
   reset = "Kamera %s sıfırlandı"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "Freecam şu anki sunucuda (%s) kısıtlı."

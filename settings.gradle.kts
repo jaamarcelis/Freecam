@@ -47,8 +47,8 @@ pluginManagement {
 }
 
 plugins {
-    id("freecam.settings")
-    id("freecam.modmetadata")
+    id("kbfc.settings")
+    id("kbfc.modmetadata")
 }
 
 stonecutter {

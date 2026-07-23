@@ -1,12 +1,12 @@
-[freecam.msg]
+[kbfc.msg]
 enabled = "فری کم روشن شد."
 disabled = "فری کم خاموش شد."
 invalidRegex = "ترکیب regex غیرمعتبر: %s"
 
-  [freecam.msg.tripod]
+  [kbfc.msg.tripod]
   open = "در حال باز کردن دوربین %s"
   close = "در حال بستن دوربین %s"
   reset = "ریست دوربین %s"
 
-  [freecam.msg.restricted]
+  [kbfc.msg.restricted]
   server = "فری کم در این سرور محدود شده است (%s)."

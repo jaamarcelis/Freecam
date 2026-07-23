@@ -116,7 +116,7 @@ public class Freecam {
     public static void toggle() {
         if (isRestrictedOnServer()) {
             if (ModConfig.get().shouldNotifyFreecam()) {
-                sendOverlayMessage(Component.translatable("freecam.msg.restricted.server", MC.getCurrentServer().ip));
+                sendOverlayMessage(Component.translatable("kbfc.msg.restricted.server", MC.getCurrentServer().ip));
             }
             return;
         }
@@ -144,7 +144,7 @@ public class Freecam {
 
         if (isRestrictedOnServer()) {
             if (ModConfig.get().shouldNotifyTripod()) {
-                sendOverlayMessage(Component.translatable("freecam.msg.restricted.server", MC.getCurrentServer().ip));
+                sendOverlayMessage(Component.translatable("kbfc.msg.restricted.server", MC.getCurrentServer().ip));
             }
             return;
         }
@@ -213,7 +213,7 @@ public class Freecam {
         activeTripod = tripod;
 
         if (ModConfig.get().shouldNotifyTripod()) {
-            sendOverlayMessage(Component.translatable("freecam.msg.tripod.open", tripod));
+            sendOverlayMessage(Component.translatable("kbfc.msg.tripod.open", tripod));
         }
     }
 
@@ -223,7 +223,7 @@ public class Freecam {
 
         if (MC.player != null) {
             if (ModConfig.get().shouldNotifyTripod()) {
-                sendOverlayMessage(Component.translatable("freecam.msg.tripod.close", activeTripod));
+                sendOverlayMessage(Component.translatable("kbfc.msg.tripod.close", activeTripod));
             }
         }
         activeTripod = TripodSlot.NONE;
@@ -237,7 +237,7 @@ public class Freecam {
         MC.setCameraEntity(freeCamera);
 
         if (ModConfig.get().shouldNotifyFreecam()) {
-            sendOverlayMessage(Component.translatable("freecam.msg.enabled"));
+            sendOverlayMessage(Component.translatable("kbfc.msg.enabled"));
         }
     }
 
@@ -246,7 +246,7 @@ public class Freecam {
 
         if (MC.player != null) {
             if (ModConfig.get().shouldNotifyFreecam()) {
-                sendOverlayMessage(Component.translatable("freecam.msg.disabled"));
+                sendOverlayMessage(Component.translatable("kbfc.msg.disabled"));
             }
         }
     }
@@ -290,7 +290,7 @@ public class Freecam {
         }
 
         if (ModConfig.get().shouldNotifyTripod()) {
-            sendOverlayMessage(Component.translatable("freecam.msg.tripod.reset", tripod));
+            sendOverlayMessage(Component.translatable("kbfc.msg.tripod.reset", tripod));
         }
     }
 
