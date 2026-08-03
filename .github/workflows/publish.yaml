@@ -1,41 +1,113 @@
-# This CI Workflow builds any tags pushed,
-# and releases them to a (draft) GitHub release, CurseForge, & Modrinth.
-name: Publish Release Build
-run-name: Publish ${{ github.ref_name }} Build
+name: Publish
 
 on:
-  push:
-    tags:
-      - 'v*\+mc*' # e.g. v1.2.3+mc1.20.4
+  workflow_call:
+    inputs:
+      ref:
+        description: Ref to publish
+        type: string
+        default: ${{ github.sha }}
+      dry-run:
+        description: Dry run
+        type: boolean
+        default: false
+    secrets:
+       MODRINTH_TOKEN:
+         description: Modrinth API token (required unless dry-run)
+         required: false
+       CURSEFORGE_TOKEN:
+         description: CurseForge API token (required unless dry-run)
+         required: false
+    outputs: {}
 
-# Only allow running one build job at a time to optimise cache hits
-concurrency:
-  group: builds
+permissions: {}
 
-# Grant permission to create/update releases
-permissions:
-  contents: write
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  publish:
+  release:
+    name: ${{ inputs.dry-run && 'dry run' || 'Release' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      # Grant 'write' to create releases.
+      contents: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Publish GitHub Release
+        env:
+          dry_run: ${{ inputs.dry-run || '' }}
+          ref: ${{ inputs.ref }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -o pipefail
+          shopt -s nullglob
+
+          meta=artifacts/release-metadata.json
+          files=( artifacts/release-*.json )
+          [ ${#files[@]} = 1 ] || {
+            echo "::error::Found ${#files[@]} release json artifacts, expected 1"
+            exit 1
+          }
+          mv "${files[0]}" "$meta"
+
+          version=$(jq .mod_version "$meta" --raw-output)
+          title=$(jq .display_name "$meta" --raw-output)
+          jq .changelog "$meta" --raw-output > changelog.md
+
+          args=(
+            --repo "$GITHUB_REPOSITORY"
+            release create "v$version"
+            --target "$ref"
+            --title "$title"
+            --notes-file changelog.md
+          )
+
+          jq '.release_type == "release"' "$meta" --exit-status >/dev/null || {
+            args+=( --prerelease )
+          }
+
+          args+=( "$meta" artifacts/*.jar )
+
+          if [ -n "$dry_run" ]; then
+            echo "Dry run:"
+            printf ' %q' gh "${args[@]}"
+            echo
+          else
+            gh "${args[@]}"
+          fi
+
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
-          distribution: microsoft
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+          distribution: temurin
 
-        # TODO assert tag matches project version
-        # TODO cache build output between jobs/workflows
+      - name: Setup Freecam Publisher
+        uses: MinecraftFreecam/Publisher@v0.0.5
 
-      - name: Build & publish
-        run: ./gradlew publishMod
+      - name: Publish to CurseForge & Modrinth
         env:
-          GH_TOKEN: ${{ github.token }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN || '' }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN || '' }}
+          dry_run: ${{ inputs.dry-run || '' }}
+          MODRINTH_TOKEN: ${{ inputs.dry-run && 'token' || secrets.MODRINTH_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ inputs.dry-run && 'token' || secrets.CURSEFORGE_TOKEN }}
+        run: |
+          echo "::notice::Using $(freecam-publish --version)"
+          args=(
+            --metadata artifacts/release-metadata.json
+            artifacts
+          )
+          if [ -n "$dry_run" ]; then
+            echo "Dry run:"
+            args+=( --dry-run )
+          fi
+          freecam-publish "${args[@]}"

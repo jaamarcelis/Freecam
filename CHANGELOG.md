@@ -7,6 +7,12 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 
 ## [Unreleased]
 
+1.4.1 adds initial support for Minecraft 26.2 and a new 'Outline Player' feature.
+Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+<!-- Squash "Cloth Config impl is now bundled" with "resolved Fabric Loader 'invalid version'" in full release -->
+
 ### Added
 
 ### Changed
@@ -14,6 +20,197 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 ### Removed
 
 ### Fixed
+
+## [1.4.1-beta.3] - 2026-07-29
+
+1.4.1 adds initial support for Minecraft 26.2 and a new 'Outline Player' feature.
+Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Changed
+
+- Several fixes and improvements to our internal build system.
+- Our Cloth Config implementation is now bundled as part of the main mod, rather than as nested child mods ([561](https://github.com/MinecraftFreecam/Freecam/pull/561))
+
+### Fixed
+
+- Show the correct Cloth Config license in the Forge 1.17.1 build ([549](https://github.com/MinecraftFreecam/Freecam/pull/549))
+
+## [1.4.1-beta.2] - 2026-07-13
+
+1.4.1 adds initial support for Minecraft 26.2 and a new 'Outline Player' feature.
+Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Added
+
+- A glowing player outline feature, to highlight your player while in Freecam ([340](https://github.com/MinecraftFreecam/Freecam/pull/340))
+  - 'Outline Player' setting that to control whether the outline is initially enabled when entering Freecam (off by default)
+  - 'Toggle Outline Player' keybind to enable or disable the outline while in Freecam
+  - English and Ukrainian translations
+  - For now, it is only available in Minecraft **1.21.11 and newer**
+
+### Changed
+
+- Cloth Config is now bundled on all builds ([539](https://github.com/MinecraftFreecam/Freecam/pull/539))
+  - Previously, Cloth Config needed to be installed separately on MC 1.17.1 Forge builds
+- Various translation updates
+
+### Removed
+
+- Dropped dependency on Fabric API ([537](https://github.com/MinecraftFreecam/Freecam/pull/537))
+  - The required modules are now distributed with Freecam.
+
+### Fixed
+
+- Resolved Fabric Loader "invalid version" warnings related to our Cloth Config implementation ([486](https://github.com/MinecraftFreecam/Freecam/issues/486), [534](https://github.com/MinecraftFreecam/Freecam/pull/534))
+- Fixed our Config GUI not being available for (legacy) Forge builds ([539](https://github.com/MinecraftFreecam/Freecam/pull/539))
+
+## [1.4.1-beta.1] - 2026-06-26
+
+1.4.1 adds initial support for Minecraft 26.2. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Changed
+
+- Various translation updates
+
+### Fixed
+
+- Fixed compatibility with legacy Forge, broken in 1.4.0 ([516](https://github.com/MinecraftFreecam/Freecam/issues/516), [526](https://github.com/MinecraftFreecam/Freecam/pull/526))
+
+## [1.4.1-alpha.1] - 2026-06-19
+
+Initial support for Minecraft 26.2, which has only had light testing. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Added
+
+- 26.2 support ([511](https://github.com/MinecraftFreecam/Freecam/issues/511), [513](https://github.com/MinecraftFreecam/Freecam/pull/513))
+
+## [1.4.0] - 2026-06-16
+
+This release introduces support for Minecraft 26.1.x and includes significant internal changes to the project's build and configuration systems.
+While most users should not notice major behavioral changes, these changes simplify maintenance across supported Minecraft versions and improve long-term compatibility.
+
+This release follows three alpha releases and two release candidates.
+
+### Added
+
+- 26.1.x support ([370](https://github.com/MinecraftFreecam/Freecam/pull/370))
+- A central landing page at <https://minecraftfreecam.github.io> ([460](https://github.com/MinecraftFreecam/Freecam/pull/460))
+- The mod description is now translatable ([172](https://github.com/MinecraftFreecam/Freecam/issues/172), [390](https://github.com/MinecraftFreecam/Freecam/pull/390))
+
+### Changed
+
+- Releases are now built for multiple supported Minecraft versions from a single codebase ([366](https://github.com/MinecraftFreecam/Freecam/pull/366))
+  - Migrated from [Architectury](https://docs.architectury.dev) to [Stonecutter](https://stonecutter.kikugie.dev)
+  - While there should be no change in behavior, there were **many internal changes** throughout the project
+- Config file renamed from `freecam.json5` to `freecam.json` ([376](https://github.com/MinecraftFreecam/Freecam/pull/376))
+  - Existing `freecam.json5` configs are read when `freecam.json` isn't present
+  - All new changes are saved to `freecam.json`
+- Cloth Config is _technically_ now optional at runtime ([378](https://github.com/MinecraftFreecam/Freecam/pull/378))
+  - The config GUI is only available when Cloth Config is loaded
+  - A bundled Cloth Config distribution is **still included** in most builds
+- Refactored several config system internals ([373](https://github.com/MinecraftFreecam/Freecam/pull/373), [374](https://github.com/MinecraftFreecam/Freecam/pull/374), [375](https://github.com/MinecraftFreecam/Freecam/pull/375), [377](https://github.com/MinecraftFreecam/Freecam/pull/377))
+- Re-rendered the project icon ([439](https://github.com/MinecraftFreecam/Freecam/pull/439))
+- Various translation updates
+
+### Removed
+
+- Support for Minecraft 1.21.10 ([482](https://github.com/MinecraftFreecam/Freecam/pull/482))
+
+### Fixed
+
+- Config options from other Freecam versions are no longer silently dropped when saving ([389](https://github.com/MinecraftFreecam/Freecam/pull/389))
+- Iris rendering the player shadow when "Show Player" is disabled ([425](https://github.com/MinecraftFreecam/Freecam/issues/425), [426](https://github.com/MinecraftFreecam/Freecam/pull/426))
+- Run NeoForge setup during the correct startup phase ([391](https://github.com/MinecraftFreecam/Freecam/issues/391), [397](https://github.com/MinecraftFreecam/Freecam/issues/397))
+
+## [1.4.0-rc.2] - 2026-06-15
+
+This version includes major underlying changes. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+If no major issues are found, this version will be released as 1.4.0.
+
+### Fixed
+
+- A crash when changing dimensions while Freecam is enabled ([505](https://github.com/MinecraftFreecam/Freecam/pull/505), [500](https://github.com/MinecraftFreecam/Freecam/issues/500))
+
+## [1.4.0-rc.1] - 2026-05-26
+
+This version includes major underlying changes. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+If no major issues are found, this version will be released as 1.4.0.
+
+### Added
+
+- A central landing page at <https://minecraftfreecam.github.io> ([460](https://github.com/MinecraftFreecam/Freecam/pull/460))
+
+### Changed
+
+- Re-rendered the project icon ([439](https://github.com/MinecraftFreecam/Freecam/pull/439))
+
+### Removed
+
+- Support for Minecraft 1.21.10 ([482](https://github.com/MinecraftFreecam/Freecam/pull/482))
+
+### Fixed
+
+- Player-targeted block incorrectly using the camera's rotation ([438](https://github.com/MinecraftFreecam/Freecam/issues/438), [498](https://github.com/MinecraftFreecam/Freecam/pull/498))
+- Marked 1.20.5 as supported by the 1.20.6 build ([436](https://github.com/MinecraftFreecam/Freecam/issues/436), [452](https://github.com/MinecraftFreecam/Freecam/pull/452))
+- Collision settings not being initialized correctly ([496](https://github.com/MinecraftFreecam/Freecam/issues/496), [497](https://github.com/MinecraftFreecam/Freecam/issues/497))
+
+## [1.4.0-alpha.3] - 2026-04-10
+
+This version includes major underlying changes. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Added
+
+- The mod description is now translatable, but not yet translated ([172](https://github.com/MinecraftFreecam/Freecam/issues/172), [390](https://github.com/MinecraftFreecam/Freecam/pull/390))
+
+### Fixed
+
+- Iris rendering the player shadow when "Show Player" is disabled ([425](https://github.com/MinecraftFreecam/Freecam/issues/425), [426](https://github.com/MinecraftFreecam/Freecam/pull/426))
+- A NeoForge crash when Iris is installed, caused by loading Iris classes too early ([424](https://github.com/MinecraftFreecam/Freecam/issues/424), [426](https://github.com/MinecraftFreecam/Freecam/pull/426))
+
+## [1.4.0-alpha.2] - 2026-04-04
+
+This version includes major underlying changes. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Fixed
+
+- A NeoForge crash, caused by setup happening too early ([391](https://github.com/MinecraftFreecam/Freecam/issues/391), [397](https://github.com/MinecraftFreecam/Freecam/issues/397))
+
+## [1.4.0-alpha.1] - 2026-03-31
+
+This version includes major underlying changes. Feedback and bug reports are greatly appreciated!
+**[Bug tracker](https://github.com/MinecraftFreecam/Freecam/issues).**
+
+### Added
+
+- 26.1 support ([370](https://github.com/MinecraftFreecam/Freecam/pull/370))
+
+### Changed
+
+- Releases are now built for multiple supported Minecraft versions from a single codebase ([366](https://github.com/MinecraftFreecam/Freecam/pull/366))
+  - Migrated from [Architectury](https://docs.architectury.dev) to [Stonecutter](https://stonecutter.kikugie.dev)
+  - While there should be no change in behavior, there were **many internal changes** throughout the project
+- Config file renamed from `freecam.json5` to `freecam.json` ([376](https://github.com/MinecraftFreecam/Freecam/pull/376))
+  - Existing `freecam.json5` configs are read when `freecam.json` isn't present
+  - All new changes are saved to `freecam.json`
+- Cloth Config is _technically_ now optional at runtime ([378](https://github.com/MinecraftFreecam/Freecam/pull/378))
+  - The config GUI is only available when Cloth Config is loaded
+  - A bundled Cloth Config distribution is **still included** in most builds
+- Refactored several config system internals ([373](https://github.com/MinecraftFreecam/Freecam/pull/373), [374](https://github.com/MinecraftFreecam/Freecam/pull/374), [375](https://github.com/MinecraftFreecam/Freecam/pull/375), [377](https://github.com/MinecraftFreecam/Freecam/pull/377))
+- Various translation updates
+
+### Fixed
+
+- Config options from other Freecam versions are no longer silently dropped when saving ([389](https://github.com/MinecraftFreecam/Freecam/pull/389))
 
 ## [1.3.6] - 2025-12-20
 
@@ -74,14 +271,6 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 
 ## [1.3.0] - 2024-07-27
 
-### Fixed
-
-- Config is now initialized before config screen is registered (fixes [#234](https://github.com/MinecraftFreecam/Freecam/issues/234))
-- Build against NeoForge 21.0.139-beta (fixes opening config screen through Forge modlist crashing)
-- Pumpkin overlay rendering while Freecam is enabled ([#239](https://github.com/MinecraftFreecam/Freecam/issues/239))
-
-## [1.3.0-beta1] - 2024-06-13
-
 ### Added
 
 - 1.21 Support ([#222](https://github.com/MinecraftFreecam/Freecam/pull/222)).
@@ -92,6 +281,12 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 - Issues specific to hosting LAN worlds ([#207](https://github.com/MinecraftFreecam/Freecam/pull/207)).
   - Compatibility issue with Lunar Client ([#206](https://github.com/MinecraftFreecam/Freecam/issues/206)).
   - Modrinth Edition not treating hosted LAN worlds as singleplayer.
+
+### Fixed after beta1
+
+- Config is now initialized before config screen is registered (fixes [#234](https://github.com/MinecraftFreecam/Freecam/issues/234))
+- Build against NeoForge 21.0.139-beta (fixes opening config screen through Forge modlist crashing)
+- Pumpkin overlay rendering while Freecam is enabled ([#239](https://github.com/MinecraftFreecam/Freecam/issues/239))
 
 ## [1.2.4] - 2024-04-23
 
@@ -606,15 +801,24 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 - Minecraft 1.18 support.
 - Minecraft 1.17 support.
 
-[Unreleased]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.6...HEAD
+[Unreleased]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.1-beta.3...HEAD
+[1.4.1-beta.3]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.1-beta.2...v1.4.1-beta.3
+[1.4.1-beta.2]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.1-beta.1...v1.4.1-beta.2
+[1.4.1-beta.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.1-alpha.1...v1.4.1-beta.1
+[1.4.1-alpha.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0...v1.4.1-alpha.1
+[1.4.0]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0-rc.2...v1.4.0
+[1.4.0-rc.2]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0-rc.1...v1.4.0-rc.2
+[1.4.0-rc.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0-alpha.3...v1.4.0-rc.1
+[1.4.0-alpha.3]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0-alpha.2...v1.4.0-alpha.3
+[1.4.0-alpha.2]: https://github.com/MinecraftFreecam/Freecam/compare/v1.4.0-alpha.1...v1.4.0-alpha.2
+[1.4.0-alpha.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.6...v1.4.0-alpha.1
 [1.3.6]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.5...v1.3.6
 [1.3.5]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.4...v1.3.5
 [1.3.4]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.3...v1.3.4
 [1.3.3]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.0...v1.3.1
-[1.3.0]: https://github.com/MinecraftFreecam/Freecam/compare/v1.3.0-beta1...v1.3.0
-[1.3.0-beta1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.4...v1.3.0-beta1
+[1.3.0]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.1.1...v1.2.2
@@ -659,7 +863,7 @@ and Freecam's versioning is based on [Semantic Versioning](https://semver.org/sp
 [0.2.5]: https://github.com/MinecraftFreecam/Freecam/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/MinecraftFreecam/Freecam/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/MinecraftFreecam/Freecam/compare/v0.2.2...v0.2.3
-[0.2.2]: https://github.com/MinecraftFreecam/Freecam/releases/tag/v0.2.2
-[0.3]: https://github.com/MinecraftFreecam/Freecam/compare/v0.2.5...v0.3
-[0.4.4.1]: https://github.com/MinecraftFreecam/Freecam/compare/v0.4.4...v0.4.4.1
+[0.2.2]: https://github.com/MinecraftFreecam/Freecam/commits/v0.2.2
 [1.2.1.1]: https://github.com/MinecraftFreecam/Freecam/compare/v1.2.1...v1.2.1.1
+[0.4.4.1]: https://github.com/MinecraftFreecam/Freecam/compare/v0.4.4...v0.4.4.1
+[0.3]: https://github.com/MinecraftFreecam/Freecam/compare/v0.2.5...v0.3

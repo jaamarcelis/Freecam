@@ -1,0 +1,28 @@
+package net.xolt.freecam.config.gui;
+
+import net.minecraft.client.gui.screens.GenericMessageScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
+final class FallbackConfigScreen extends GenericMessageScreen {
+
+    private static final Component TITLE = Component.translatable("fcam.config.gui.fallback.title");
+
+    private final Screen parent;
+
+    FallbackConfigScreen(Screen parent) {
+        super(TITLE);
+        this.parent = parent;
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+        return true;
+    }
+
+    @Override
+    public void onClose() {
+        //~ if >=26.2 setScreen -> 'gui.setScreen'
+        minecraft.gui.setScreen(parent);
+    }
+}

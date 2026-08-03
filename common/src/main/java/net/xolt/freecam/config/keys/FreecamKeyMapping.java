@@ -8,7 +8,10 @@ import java.util.function.Consumer;
 
 public class FreecamKeyMapping extends KeyMapping implements Tickable {
 
-    private static final Category FREECAM_CATEGORY = Category.register(Identifier.fromNamespaceAndPath("fcam", "fcam"));
+    //? if >=1.21.11 {
+    private static final Category FREECAM_CATEGORY = Category.register(Identifier.fromNamespaceAndPath("fcam", "controls"));
+    //? } else
+    //private static final String FREECAM_CATEGORY = "key.category.fcam.controls";
 
     private final Consumer<FreecamKeyMapping> onTick;
 
@@ -32,12 +35,10 @@ public class FreecamKeyMapping extends KeyMapping implements Tickable {
     /**
      * Reset whether the key was pressed.
      *
-     * @implNote Cannot use {@link KeyMapping#release()} because it doesn't work as
-     *           expected.
+     * @implNote Cannot use {@link KeyMapping#release()} because it doesn't work as expected.
      */
     @SuppressWarnings("StatementWithEmptyBody")
     public void reset() {
-        while (consumeClick()) {
-        }
+        while (consumeClick()) {}
     }
 }

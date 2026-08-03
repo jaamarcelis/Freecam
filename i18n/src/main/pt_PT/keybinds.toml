@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Alternar Freecam"
+
+  [key.fcam.controlPlayer]
+  toggle = "Controlar Jogador"
+
+  [key.fcam.tripod]
+  reset = "Redefinir Tripé"
+
+  [key.fcam.config]
+  open = "Interface de definições"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Alternar Contorno de Jogador"

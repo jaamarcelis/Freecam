@@ -1,0 +1,12 @@
+[fcam.msg]
+enabled = "Freecam açıldı."
+disabled = "Freecam kapatıldı."
+invalidRegex = "Geçersiz düzenli ifade: %s"
+
+  [fcam.msg.tripod]
+  open = "%s kamerası açılıyor"
+  close = "Kamera %s kapatıldı"
+  reset = "Kamera %s sıfırlandı"
+
+  [fcam.msg.restricted]
+  server = "Freecam şu anki sunucuda (%s) kısıtlı."

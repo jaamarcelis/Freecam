@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "net.xolt.freecam.mixins",
+  "plugin": "net.xolt.freecam.FreecamMixinConfig",
+  "compatibilityLevel": "${mixinCompatLevel}",
+  "minVersion": "0.8",
+  "client": [
+    "AvatarRendererMixin",
+    "BlockStateBaseMixin",
+    "CameraMixin",
+    "ClientPacketListenerMixin",
+    "EntityMixin",
+    "EntityRenderDispatcherMixin",
+    "FullBrightMixin",
+    "GameRendererMixin",
+    "GuiMixin",
+    //? if >=26.2
+    "HudMixin",
+    "IrisHandRendererMixin",
+    //? if <1.21.6
+    //"IrisShadowRendererMixin",
+    "ItemInHandRendererMixin",
+    //? if >=26.2 {
+    "LevelExtractorMixin",
+    //? } else if >=1.21.11
+    //"LevelRendererMixin",
+    "LivingEntityMixin",
+    "LocalPlayerMixin",
+    "MinecraftMixin",
+    "MultiPlayerGameModeMixin",
+    "OptionsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

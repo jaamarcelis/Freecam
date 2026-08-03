@@ -1,0 +1,15 @@
+[[build]]
+# Projects that don't depend on Minecraft, like :config
+name = "Core"
+gradle_args = [":config:check"]
+
+[[build]]
+name = "Tooling"
+gradle_args = ["--project-dir", "build-logic", ":check"]
+
+[[build]]
+name = "Release metadata"
+gradle_args = [":generateReleaseMetadata"]
+upload.path = "build/metadata/release-*.json"
+upload.archive = false
+upload.days = 5

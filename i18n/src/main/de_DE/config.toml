@@ -1,0 +1,153 @@
+[fcam.config.gui]
+title = "Freecam Optionen"
+
+  [fcam.config.gui.fallback]
+  title = "Konfigurations-GUI nicht verfügbar."
+
+[fcam.config.controls]
+label = "Tastenbelegung"
+tooltip = "Freecam Tastenbelegung."
+
+[fcam.config.movement]
+label = "Bewegungsoptionen"
+tooltip = "Wie sich die Kamera bewegt."
+
+  [fcam.config.movement.flightMode]
+  label = "Flugmodus"
+  tooltip = "Von Freecam verwendeter Flugtyp."
+  DEFAULT = "Standard"
+  CREATIVE = "Kreativ"
+
+  [fcam.config.movement.speed]
+  value = "Wert: %01.2f"
+
+    [fcam.config.movement.speed.horizontal]
+    label = "Horizontale Geschwindigkeit"
+    tooltip = "Horizontale Geschwindigkeit von Freecam."
+
+    [fcam.config.movement.speed.vertical]
+    label = "Vertikale Geschwindigkeit"
+    tooltip = "Die vertikale Geschwindigkeit von freecam."
+
+[fcam.config.collision]
+label = "Kollisionsoptionen"
+tooltip = "Durch welche Blöcke du in Freecam fliegen kannst."
+
+  [fcam.config.collision.ignoreAll]
+  label = "Alle Kollision ignorieren"
+  "tooltip[0]" = "Ermöglicht das Bewegen durch alle Blöcke in Freecam."
+  "tooltip[1]" = "§eÜberschreibt obere Einstellungen."
+
+  [fcam.config.collision.ignoreTransparent]
+  label = "Transparente Blöcke ignorieren"
+  tooltip = "Ermöglicht das Bewegen durch transparente Blöcke in Freecam."
+
+  [fcam.config.collision.ignoreOpenable]
+  label = "Öffenbare Blöcke Ignorieren"
+  tooltip = "Ermöglicht das Bewegen durch Türen/Falltüren/Tore in Freecam."
+
+  [fcam.config.collision.ignoreCustom]
+  label = "Benutzerdefinierte Ignorierliste"
+  tooltip = "Ermöglicht das Bewegen durch bestimmte Blöcke in Freecam."
+
+[fcam.config.collision.whitelist.ids]
+label = "IDs ignorieren"
+"tooltip[0]" = 'Benutze die Block-ID, z.B. "grass_block".'
+"tooltip[1]" = 'Wenn der Namensraum weggelassen wird, wird "minecraft:" angenommen.'
+
+[fcam.config.collision.whitelist.patterns]
+label = "Reguläre Ausdrücke ignorieren"
+"tooltip[0]" = "Verwende reguläre Ausdruckssyntax."
+"tooltip[1]" = 'Auf volle Block-id gegengeprüft, z.B. "minecraft:grass_block".'
+
+  [fcam.config.collision.alwaysCheck]
+  label = "Erste Kollision immer überprüfen"
+  "tooltip[0]" = "Ob §7Erste Perspektive$r auf Kollisionen prüfen soll,"
+  "tooltip[1]" = "Auch bei Verwendung von $7Alle Kollisionen Ignorieren§r."
+
+[fcam.config.visual]
+label = "Visuelle Optionen"
+tooltip = "Das Aussehen von Freecam."
+
+  [fcam.config.visual.perspective]
+  label = "Initiale Perspektive"
+  tooltip = "Initiale Perspektive der Kamera."
+  FIRST_PERSON = "First Person"
+  THIRD_PERSON = "Außenansicht"
+  THIRD_PERSON_MIRROR = "Spiegel"
+  INSIDE = "Innen"
+
+  [fcam.config.visual.showPlayer]
+  label = "Spieler anzeigen"
+  tooltip = "Zeigt Ihren Spieler in seiner Originalposition."
+
+  [fcam.config.visual.showHand]
+  label = "Hand anzeigen"
+  tooltip = "Ob deine Hand in Freecam zu sehen ist."
+
+  [fcam.config.visual.fullBright]
+  label = "Volle Helligkeit"
+  tooltip = "Erhöht Helligkeit im Freecam."
+
+  [fcam.config.visual.showSubmersionFog]
+  label = "Unterwassernebel anzeige"
+  tooltip = "Ob du Nebel Unterwasser, in Lava oder in Pulverschnee siehst."
+
+  [fcam.config.visual.outlinePlayer]
+  label = "Kontur-Spieler"
+  "tooltip[0]" = "Wenden Sie beim Aktivieren von Freecam eine Umrisslinie auf Ihren Spieler zu."
+  "tooltip[1]" = 'Die Umrisslinie kann auch mit der Tastatur "Spieler Outline umschalten" gesteuert werden.'
+
+[fcam.config.utility]
+label = "Utility Optionen"
+tooltip = "Freecam Verbesserungen."
+
+  [fcam.config.utility.disableOnDamage]
+  label = "Bei Schaden deaktivieren"
+  tooltip = "Deaktiviert Freecam, wenn man Schaden bekommt."
+
+  [fcam.config.utility.freezePlayer]
+  label = "Spieler einfrieren"
+  "tooltip[0]" = "Verhindert Spieler Bewegung, während Freecam aktiviert ist."
+  "tooltip[1]" = "$cWARNUNG: Mehrspielernutzung nicht empfohlen."
+
+[fcam.config.utility.interact.allow]
+label = "Interaktion erlauben"
+"tooltip[0]" = "Ob du mit Blöcken/Entities im Freecam interagieren kannst."
+"tooltip[1]" = "$cWARNUNG: Mehrspielernutzung nicht empfohlen."
+
+[fcam.config.utility.interact.mode]
+label = "Interaktionsmodus"
+tooltip = "Die Quelle für Block/Entität Interaktionen."
+CAMERA = "Kamera"
+PLAYER = "Spieler"
+
+[fcam.config.servers]
+label = "Mehrspieler Optionen"
+tooltip = "Optionen in Bezug auf Mehrspieler Servers."
+
+  [fcam.config.servers.mode]
+  label = "Einschränkungsmodus"
+  "tooltip[0]" = "Freecam auf bestimmten Servers erlauben oder verbieten."
+  "tooltip[1]" = "(entweder eine Whitelist oder Blacklist verwenden)."
+  NONE = "Keine Einschränkungen"
+  WHITELIST = "Ausnahmeliste"
+  BLACKLIST = "Nutzer blocken"
+
+  [fcam.config.servers.whitelist]
+  label = "Ausnahmeliste:"
+
+  [fcam.config.servers.blacklist]
+  label = "Blacklist:"
+
+[fcam.config.notification]
+label = "Benachrichtigungsoptionen"
+tooltip = "Benachrichtigungen anzeigen oder verstecken."
+
+  [fcam.config.notification.fcam]
+  label = "Freecam Benachrichtigungen"
+  tooltip = "Benachrichtigt dich, wenn du freecam betrittst/verlässt."
+
+  [fcam.config.notification.tripod]
+  label = "Stativ Benachrichtigungen"
+  tooltip = "Benachrichtigt dich, wenn du Stativkameras betrittst/verlässt."

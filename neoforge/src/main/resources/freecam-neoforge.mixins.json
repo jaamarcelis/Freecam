@@ -1,7 +1,8 @@
 {
   "required": true,
   "package": "net.xolt.freecam.forge.mixins",
-  "compatibilityLevel": "JAVA_17",
+  "plugin": "net.xolt.freecam.FreecamMixinConfig",
+  "compatibilityLevel": "${mixinCompatLevel}",
   "minVersion": "0.8",
   "client": [
     "EntityRenderDispatcherMixin"

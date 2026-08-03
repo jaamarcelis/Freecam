@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Freecam Umschalten"
+
+  [key.fcam.controlPlayer]
+  toggle = "Spieler Kontrollieren"
+
+  [key.fcam.tripod]
+  reset = "Stativ zurücksetzen"
+
+  [key.fcam.config]
+  open = "Konfigurationsmenü"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Kontur-Player umschalten"

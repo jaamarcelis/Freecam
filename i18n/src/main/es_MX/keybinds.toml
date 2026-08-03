@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Alternar Freecam"
+
+  [key.fcam.controlPlayer]
+  toggle = "Controlar Jugador"
+
+  [key.fcam.tripod]
+  reset = "Restablecer Trípode"
+
+  [key.fcam.config]
+  open = "GUI de configuración"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Toggle Outline Player"

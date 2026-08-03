@@ -1,0 +1,12 @@
+[fcam.msg]
+enabled = "تم تفعيل فري كام."
+disabled = "تم تعطيل فري كام."
+invalidRegex = "ريجكس غير صالح: %s"
+
+  [fcam.msg.tripod]
+  open = "فتح الكاميرا %s"
+  close = "إغلاق الكاميرا %s"
+  reset = "إعادة تعيين الكاميرا %s"
+
+  [fcam.msg.restricted]
+  server = "فري كام مقيد على الخادم الحالي (%s)."

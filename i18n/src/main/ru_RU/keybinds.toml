@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Переключить Freecam"
+
+  [key.fcam.controlPlayer]
+  toggle = "Управлять игроком"
+
+  [key.fcam.tripod]
+  reset = "Сбросить штатив"
+
+  [key.fcam.config]
+  open = "Настроить интерфейс"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Вкл/Выкл Игрока"

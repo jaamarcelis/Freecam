@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Växla till Freecam"
+
+  [key.fcam.controlPlayer]
+  toggle = "Kontrollera Spelare"
+
+  [key.fcam.tripod]
+  reset = "Återställ stativet"
+
+  [key.fcam.config]
+  open = "Konfigurationsgränssnitt"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Växla konturspelare"

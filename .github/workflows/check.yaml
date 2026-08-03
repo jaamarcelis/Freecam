@@ -1,0 +1,48 @@
+name: Checks
+
+on:
+  pull_request:
+
+# Group workflow runs by ref.
+# New runs cancel any pending run.
+# In-progress runs are allowed to complete.
+concurrency:
+  group: check-${{ github.ref }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate:
+    name: Validation
+    runs-on: ubuntu-slim
+    timeout-minutes: 30
+
+    env:
+      RUFF_OUTPUT_FORMAT: github
+
+    steps:
+      - name: Checkout required files
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            ci
+            CHANGELOG.md
+            metadata.toml
+            .editorconfig
+            .gitignore
+            biome.jsonc
+            tsconfig.json
+            package.json
+            package-lock.json
+          sparse-checkout-cone-mode: false
+
+      - name: Install CI dependencies
+        run: npm ci
+
+      - name: Check CI
+        run: npm test
+
+      - name: Lint changelog
+        run: node ci/src/lint_changelog.ts

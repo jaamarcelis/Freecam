@@ -1,0 +1,153 @@
+[fcam.config.gui]
+title = "Freecam 選項"
+
+  [fcam.config.gui.fallback]
+  title = "Config GUI not available."
+
+[fcam.config.controls]
+label = "按鍵綁定"
+tooltip = "Freecam 按鍵綁定。"
+
+[fcam.config.movement]
+label = "移動選項"
+tooltip = "攝影機的移動方式。"
+
+  [fcam.config.movement.flightMode]
+  label = "飛行模式"
+  tooltip = "Freecam 使用的飛行類型。"
+  DEFAULT = "預設"
+  CREATIVE = "創造模式飛行"
+
+  [fcam.config.movement.speed]
+  value = "Value: %01.2f"
+
+    [fcam.config.movement.speed.horizontal]
+    label = "水平移動速度"
+    tooltip = "靈魂出竅的水平速度。"
+
+    [fcam.config.movement.speed.vertical]
+    label = "垂直速度"
+    tooltip = "Freecam 的垂直速度。"
+
+[fcam.config.collision]
+label = "碰撞選項"
+tooltip = "你可以在 Freecam 中穿過的方塊。"
+
+  [fcam.config.collision.ignoreAll]
+  label = "忽略所有碰撞"
+  "tooltip[0]" = "允許在 Freecam 中穿過所有方塊。"
+  "tooltip[1]" = "§e覆蓋以上設定。"
+
+  [fcam.config.collision.ignoreTransparent]
+  label = "無視透明方塊"
+  tooltip = "允許在 Freecam 中穿過透明方塊。"
+
+  [fcam.config.collision.ignoreOpenable]
+  label = "忽略可開啟方塊"
+  tooltip = "允許 Freecam 穿過門/地板門/柵欄門。"
+
+  [fcam.config.collision.ignoreCustom]
+  label = "自訂忽略清單"
+  tooltip = "允許在靈魂出竅中穿過特定方塊。"
+
+[fcam.config.collision.whitelist.ids]
+label = "忽略 ID"
+"tooltip[0]" = '使用方塊 ID，例如 "grass_block"。'
+"tooltip[1]" = '如果省略命名空間，則假定為 "minecraft:"。'
+
+[fcam.config.collision.whitelist.patterns]
+label = "忽略規則運算式"
+"tooltip[0]" = "使用規則運算式語法。"
+"tooltip[1]" = '以完整方塊 ID 比對，例如 "minecraft:grass_block"。'
+
+  [fcam.config.collision.alwaysCheck]
+  label = "一律檢查初始碰撞"
+  "tooltip[0]" = "即使使用 §7忽略所有碰撞§r，"
+  "tooltip[1]" = "§7初始視角§r 是否也應檢查碰撞。"
+
+[fcam.config.visual]
+label = "視覺選項"
+tooltip = "Freecam 的外觀。"
+
+  [fcam.config.visual.perspective]
+  label = "初始視角"
+  tooltip = "攝影機的初始視角。"
+  FIRST_PERSON = "第一人稱"
+  THIRD_PERSON = "第三人稱"
+  THIRD_PERSON_MIRROR = "鏡像"
+  INSIDE = "內部"
+
+  [fcam.config.visual.showPlayer]
+  label = "顯示玩家"
+  tooltip = "在原始位置顯示你的玩家。"
+
+  [fcam.config.visual.showHand]
+  label = "顯示手"
+  tooltip = "是否在 Freecam 中顯示你的手。"
+
+  [fcam.config.visual.fullBright]
+  label = "最高亮度"
+  tooltip = "在 Freecam 中提高亮度。"
+
+  [fcam.config.visual.showSubmersionFog]
+  label = "顯示水中霧氣"
+  tooltip = "是否在水下、熔岩或粉雪中顯示霧氣覆蓋。"
+
+  [fcam.config.visual.outlinePlayer]
+  label = "Outline Player"
+  "tooltip[0]" = "Apply an outline to your player when activating Freecam."
+  "tooltip[1]" = 'The outline can also be controlled using the "Toggle Player Outline" keybind.'
+
+[fcam.config.utility]
+label = "實用選項"
+tooltip = "Freecam 的增強功能。"
+
+  [fcam.config.utility.disableOnDamage]
+  label = "受傷時停用"
+  tooltip = "受傷時停用 Freecam。"
+
+  [fcam.config.utility.freezePlayer]
+  label = "凍結玩家"
+  "tooltip[0]" = "在 Freecam 啟用時防止玩家移動。"
+  "tooltip[1]" = "§c警告：不建議在多人遊戲中使用。"
+
+[fcam.config.utility.interact.allow]
+label = "允許互動"
+"tooltip[0]" = "是否可以在 Freecam 中與方塊/實體互動。"
+"tooltip[1]" = "§c警告：不建議在多人遊戲中使用。"
+
+[fcam.config.utility.interact.mode]
+label = "互動模式"
+tooltip = "方塊/實體互動的來源。"
+CAMERA = "攝影機"
+PLAYER = "玩家"
+
+[fcam.config.servers]
+label = "多人遊戲選項"
+tooltip = "與多人遊戲伺服器相關的選項。"
+
+  [fcam.config.servers.mode]
+  label = "限制模式"
+  "tooltip[0]" = "允許或禁止在某些伺服器上使用 Freecam。"
+  "tooltip[1]" = "（使用白名單或黑名單）。"
+  NONE = "沒有限制"
+  WHITELIST = "白名單"
+  BLACKLIST = "黑名單"
+
+  [fcam.config.servers.whitelist]
+  label = "白名單："
+
+  [fcam.config.servers.blacklist]
+  label = "黑名單："
+
+[fcam.config.notification]
+label = "通知選項"
+tooltip = "顯示/隱藏通知"
+
+  [fcam.config.notification.fcam]
+  label = "Freecam 通知"
+  tooltip = "在進入/離開 Freecam 時通知你。"
+
+  [fcam.config.notification.tripod]
+  label = "三腳架通知"
+  tooltip = "在進入/離開三腳架攝影機時通知你。"

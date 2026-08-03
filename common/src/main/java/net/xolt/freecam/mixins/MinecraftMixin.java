@@ -1,15 +1,18 @@
 package net.xolt.freecam.mixins;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
 import net.xolt.freecam.Freecam;
 import net.xolt.freecam.config.ModConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static net.xolt.freecam.Freecam.MC;
 import static net.xolt.freecam.config.ModBindings.KEY_TOGGLE;
 import static net.xolt.freecam.config.ModBindings.KEY_TRIPOD_RESET;
 
@@ -18,19 +21,34 @@ public class MinecraftMixin {
 
     // Prevents attacks when allowInteract is disabled.
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
-    private void onDoAttack(CallbackInfoReturnable<Boolean> cir) {
+    //~ if >1.17.1 CallbackInfo -> 'CallbackInfoReturnable<Boolean>'
+    private void onDoAttack(CallbackInfoReturnable<Boolean> ci) {
         if (freecam$disableInteract()) {
-            cir.cancel();
+            ci.cancel();
         }
     }
 
     // Prevents item pick when allowInteract is disabled.
-    @Inject(method = "pickBlock", at = @At("HEAD"), cancellable = true)
+    //~ if >=26.1 pickBlock -> pickBlockOrEntity
+    @Inject(method = "pickBlockOrEntity", at = @At("HEAD"), cancellable = true)
     private void onDoItemPick(CallbackInfo ci) {
         if (freecam$disableInteract()) {
             ci.cancel();
         }
     }
+
+
+    // Makes mouse clicks come from the player rather than the freecam entity when player control is enabled or if interaction mode is set to player.
+    // Was GameRenderer#pick before 26.1
+    //? if >=26.1 {
+    @ModifyVariable(method = "pick(F)V", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/Minecraft;getCameraEntity()Lnet/minecraft/world/entity/Entity;"))
+    private Entity onGetHitTargetSource(Entity entity) {
+        if (Freecam.isEnabled() && (Freecam.isPlayerControlEnabled() || ModConfig.get().allowInteractionsFromPlayer())) {
+            return MC.player;
+        }
+        return entity;
+    }
+    //? }
 
     // Prevents block breaking when allowInteract is disabled.
     @Inject(method = "continueAttack", at = @At("HEAD"), cancellable = true)
@@ -49,13 +67,14 @@ public class MinecraftMixin {
     }
 
     // Disables freecam if the player disconnects.
-    @Inject(method = "disconnect", at = @At(value = "HEAD"))
+    //~ if >=1.20.6 '"clearLevel()V"' -> '"disconnect*"'
+    @Inject(method = "disconnect*", at = @At(value = "HEAD"))
     private void onDisconnect(CallbackInfo ci) {
         Freecam.onDisconnect();
     }
 
     @Unique
     private static boolean freecam$disableInteract() {
-        return Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !ModConfig.INSTANCE.utility.allowInteract;
+        return Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && ModConfig.get().shouldPreventInteractions();
     }
 }

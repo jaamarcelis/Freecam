@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "فري كام"
+
+[key.fcam]
+toggle = "تبديل فري كام"
+
+  [key.fcam.controlPlayer]
+  toggle = "تحكم اللاعب"
+
+  [key.fcam.tripod]
+  reset = "ضبت الترايبود"
+
+  [key.fcam.config]
+  open = "قائمة الضبط"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Toggle Outline Player"

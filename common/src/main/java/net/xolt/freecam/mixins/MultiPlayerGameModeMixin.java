@@ -16,6 +16,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//? if <=1.18.2 {
+/*import net.minecraft.client.multiplayer.ClientLevel;
+*///? }
 
 import static net.xolt.freecam.Freecam.MC;
 
@@ -24,7 +27,12 @@ public class MultiPlayerGameModeMixin {
 
     // Prevents interacting with blocks when allowInteract is disabled.
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    private void onInteractBlock(LocalPlayer player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+    private void onInteractBlock(LocalPlayer player,
+                                 //? if <= 1.18.2
+                                 //ClientLevel level,
+                                 InteractionHand hand,
+                                 BlockHitResult hitResult,
+                                 CallbackInfoReturnable<InteractionResult> cir) {
         if (freecam$disableInteract()) {
             cir.setReturnValue(InteractionResult.PASS);
         }
@@ -32,30 +40,38 @@ public class MultiPlayerGameModeMixin {
 
     // Prevents interacting with entities when allowInteract is disabled, and prevents interacting with self.
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    private void onInteractEntity(Player player, Entity entity, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (entity.equals(MC.player) || freecam$disableInteract()) {
+    private void onInteractEntity(
+            Player player,
+            Entity entity,
+            //? if >=26.1
+            EntityHitResult hitResult,
+            InteractionHand hand,
+            CallbackInfoReturnable<InteractionResult> cir) {
+        if (entity == MC.player || freecam$disableInteract()) {
             cir.setReturnValue(InteractionResult.PASS);
         }
     }
 
     // Prevents interacting with entities when allowInteract is disabled, and prevents interacting with self.
-    @Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
+    //? if <26.1 {
+    /*@Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
     private void onInteractEntityAtLocation(Player player, Entity entity, EntityHitResult hitResult, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (entity.equals(MC.player) || freecam$disableInteract()) {
+        if (entity == MC.player || freecam$disableInteract()) {
             cir.setReturnValue(InteractionResult.PASS);
         }
     }
+    *///? }
 
     // Prevents attacking self.
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void onAttackEntity(Player player, Entity target, CallbackInfo ci) {
-        if (target.equals(MC.player)) {
+        if (target == MC.player) {
             ci.cancel();
         }
     }
 
     @Unique
     private static boolean freecam$disableInteract() {
-        return Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && !ModConfig.INSTANCE.utility.allowInteract;
+        return Freecam.isEnabled() && !Freecam.isPlayerControlEnabled() && ModConfig.get().shouldPreventInteractions();
     }
 }

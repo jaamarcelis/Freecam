@@ -1,0 +1,9 @@
+[key.category]
+fcam.controls = "Freecam"
+
+[key.fcam]
+toggle = "Toggle Freecam"
+controlPlayer.toggle = "Control Player"
+tripod.reset = "Reset Tripod"
+config.open = "Config GUI"
+outlinePlayer.toggle = "Toggle Outline Player"

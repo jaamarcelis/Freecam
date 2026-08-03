@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Freecam Aç/Kapa"
+
+  [key.fcam.controlPlayer]
+  toggle = "Oyuncuyu Kontrol Et"
+
+  [key.fcam.tripod]
+  reset = "Tripodu Sıfırla"
+
+  [key.fcam.config]
+  open = "Ayar Arayüzü"
+
+  [key.fcam.outlinePlayer]
+  toggle = "Toggle Outline Player"

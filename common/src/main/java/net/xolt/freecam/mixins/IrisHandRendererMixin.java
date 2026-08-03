@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Pseudo
 @Mixin(
+        //~ if >=1.20 'net.coderbot.iris.pipeline' -> 'net.irisshaders.iris.pathways'
         targets = "net.irisshaders.iris.pathways.HandRenderer",
         remap = false
 )
@@ -18,7 +19,7 @@ public class IrisHandRendererMixin {
     // Hide hand in freecam if showHand is disabled
     @Inject(method = "canRender", at = @At("HEAD"), cancellable = true)
     private void onRenderItemInHand(CallbackInfoReturnable<Boolean> cir) {
-        if (Freecam.isEnabled() && !ModConfig.INSTANCE.visual.showHand) {
+        if (Freecam.isEnabled() && ModConfig.get().shouldHideHand()) {
             cir.setReturnValue(false);
         }
     }

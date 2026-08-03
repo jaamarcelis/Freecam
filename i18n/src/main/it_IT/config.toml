@@ -1,0 +1,153 @@
+[fcam.config.gui]
+title = "Opzioni Camera libera"
+
+  [fcam.config.gui.fallback]
+  title = "Interfaccia di configurazione non disponibile."
+
+[fcam.config.controls]
+label = "Associazione dei Tasti"
+tooltip = "Associazione dei tasti della Camera libera."
+
+[fcam.config.movement]
+label = "Opzioni di Movimento"
+tooltip = "Come si muove la telecamera."
+
+  [fcam.config.movement.flightMode]
+  label = "Modalità di Volo"
+  tooltip = "Il tipo di volo utilizzato dalla Camera libera."
+  DEFAULT = "Predefinito"
+  CREATIVE = "Creativa"
+
+  [fcam.config.movement.speed]
+  value = "Valore: %01.2f"
+
+    [fcam.config.movement.speed.horizontal]
+    label = "Velocità orizzontale"
+    tooltip = "La velocità orizzontale della Camera libera."
+
+    [fcam.config.movement.speed.vertical]
+    label = "Velocità Verticale"
+    tooltip = "La velocità verticale della Camera libera."
+
+[fcam.config.collision]
+label = "Opzioni di Collisione"
+tooltip = "Quali blocchi puoi attraversare nella Camera libera."
+
+  [fcam.config.collision.ignoreAll]
+  label = "Ignora Tutte le Collisioni"
+  "tooltip[0]" = "Consente di viaggiare attraverso tutti i blocchi nella Camera libera."
+  "tooltip[1]" = "§eSostituisce le impostazioni precedenti."
+
+  [fcam.config.collision.ignoreTransparent]
+  label = "Ignora Blocchi Trasparenti"
+  tooltip = "Consente di viaggiare attraverso blocchi trasparenti nella Camera libera."
+
+  [fcam.config.collision.ignoreOpenable]
+  label = "Ignora i Blocchi Apribili"
+  tooltip = "Consente di attraversare porte/botole/cancelli nella Camera libera."
+
+  [fcam.config.collision.ignoreCustom]
+  label = "Elenco Personalizzato Ignorato"
+  tooltip = "Consente di viaggiare attraverso blocchi specifici della Camera libera."
+
+[fcam.config.collision.whitelist.ids]
+label = "Ignora ID"
+"tooltip[0]" = 'Usa blocco id, es. "grass_block".'
+"tooltip[1]" = 'Se lo spazio dei nomi viene omesso, si presume che venga usato "minecraft:".'
+
+[fcam.config.collision.whitelist.patterns]
+label = "Ignora le Espressioni Regolari"
+"tooltip[0]" = "Usa le sintassi Espressioni Regolari."
+"tooltip[1]" = "Corrisponde all'ID completo del blocco, ad esempio \"minecraft:grass_block\"."
+
+  [fcam.config.collision.alwaysCheck]
+  label = "Controlla Sempre la Collisione Iniziale"
+  "tooltip[0]" = "Se la §7Prospettiva Iniziale§r deve controllare la"
+  "tooltip[1]" = "collisione, anche quando si utilizza §7Ignora Tutte le Collisioni§r."
+
+[fcam.config.visual]
+label = "Opzioni Visive"
+tooltip = "Lo sguardo della Camera libera."
+
+  [fcam.config.visual.perspective]
+  label = "Prospettiva Iniziale"
+  tooltip = "La prospettiva iniziale della Camera libera."
+  FIRST_PERSON = "La Prima Persona"
+  THIRD_PERSON = "Terza Persona"
+  THIRD_PERSON_MIRROR = "Rispecchiato"
+  INSIDE = "Dentro"
+
+  [fcam.config.visual.showPlayer]
+  label = "Mostra Giocatore"
+  tooltip = "Mostra il giocatore nella sua posizione originale."
+
+  [fcam.config.visual.showHand]
+  label = "Mostra Mano"
+  tooltip = "Se puoi vedere la tua mano nella Camera libera."
+
+  [fcam.config.visual.fullBright]
+  label = "Luminosità Completa"
+  tooltip = "Aumenta la luminosità in Camera libera."
+
+  [fcam.config.visual.showSubmersionFog]
+  label = "Mostra Nebbia da Immersione"
+  tooltip = "Se vedi una copertura di nebbia sott'acqua, nella lava e nella neve farinosa."
+
+  [fcam.config.visual.outlinePlayer]
+  label = "Contorno Giocatore"
+  "tooltip[0]" = "Applica un profilo al tuo giocatore quando attivi Freecam."
+  "tooltip[1]" = 'Il contorno può essere controllato anche usando il tastierino "Toggle Player Outline".'
+
+[fcam.config.utility]
+label = "Opzioni di Utilità"
+tooltip = "Miglioramenti della Camera libera."
+
+  [fcam.config.utility.disableOnDamage]
+  label = "Disattiva Danno"
+  tooltip = "Disabilità la Camera libera quando viene ricevuto un danno."
+
+  [fcam.config.utility.freezePlayer]
+  label = "Blocca Giocatore"
+  "tooltip[0]" = "Impedisce il movimento del giocatore mentre la Camera libera è attivatà."
+  "tooltip[1]" = "§cATTENZIONE: l'utilizzo del Multigiocatore è sconsigliato."
+
+[fcam.config.utility.interact.allow]
+label = "Consenti Interazione"
+"tooltip[0]" = "Se puoi interagire con blocchi/entità con la Camera libera."
+"tooltip[1]" = "§cATTENZIONE: l'utilizzo del Multigiocatore è sconsigliato."
+
+[fcam.config.utility.interact.mode]
+label = "Modalità d'interazione"
+tooltip = "L'origine delle interazioni blocco/entità."
+CAMERA = "Camera"
+PLAYER = "Giocatore"
+
+[fcam.config.servers]
+label = "Opzioni Multigiocatore"
+tooltip = "Opzioni relative ai server multigiocatore."
+
+  [fcam.config.servers.mode]
+  label = "Modalità con Restrizione"
+  "tooltip[0]" = "Consente o vieta l'uso la Camera libera su determinati server."
+  "tooltip[1]" = "(utilizza una whitelist o una blacklist)."
+  NONE = "Nessuna restrizione"
+  WHITELIST = "Whitelist"
+  BLACKLIST = "Blacklist"
+
+  [fcam.config.servers.whitelist]
+  label = "Whitelist:"
+
+  [fcam.config.servers.blacklist]
+  label = "Blacklist:"
+
+[fcam.config.notification]
+label = "Opzioni di Notifica"
+tooltip = "Mostra o nascondi le notifiche."
+
+  [fcam.config.notification.fcam]
+  label = "Notifiche Camera libera"
+  tooltip = "Ti avvisa quando entri/esci dalla Camera libera."
+
+  [fcam.config.notification.tripod]
+  label = "Notifiche Treppiedi"
+  tooltip = "Ti avvisa quando entri/esci dalla Camera libera a Treppiedi."

@@ -1,0 +1,17 @@
+[key.category.fcam]
+controls = "Freecam"
+
+[key.fcam]
+toggle = "Freecamの切り替え"
+
+  [key.fcam.controlPlayer]
+  toggle = "プレーヤーコントロール"
+
+  [key.fcam.tripod]
+  reset = "三脚のリセット"
+
+  [key.fcam.config]
+  open = "コンフィグ GUI"
+
+  [key.fcam.outlinePlayer]
+  toggle = "アウトラインプレイヤーの切り替え"

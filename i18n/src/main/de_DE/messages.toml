@@ -1,0 +1,12 @@
+[fcam.msg]
+enabled = "Freecam wurde aktiviert."
+disabled = "Freecam wurde deaktiviert."
+invalidRegex = "Ungültige Regex: %s"
+
+  [fcam.msg.tripod]
+  open = "Kamera %s wird geöffnet"
+  close = "Kamera %s wird geschlossen"
+  reset = "Kamera %s zurücksetzen"
+
+  [fcam.msg.restricted]
+  server = "Freecam ist eingeschränkt auf diesem Server (%s)."

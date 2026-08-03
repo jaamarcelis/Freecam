@@ -1,0 +1,196 @@
+name: Setup
+
+on:
+  workflow_call:
+    inputs:
+      changelog:
+        description: Check whether a changelog comment should be posted
+        type: boolean
+        default: false
+      i18n:
+        description: Check whether i18n files were touched
+        type: boolean
+        default: false
+      release:
+        description: Check whether a release should be made
+        type: boolean
+        default: false
+      matrix:
+        description: Build a job matrix
+        type: boolean
+        default: false
+    outputs:
+      version:
+        description: The current project version
+        value: ${{ jobs.prepare.outputs.version }}
+      do_release:
+        description: Whether to publish a GitHub Release
+        value: ${{ jobs.prepare.outputs.do_release }}
+      changelog_comment:
+        description: Whether to post a PR comment displaying the current changelog
+        value: ${{ jobs.prepare.outputs.changelog_comment }}
+      i18n_files:
+        description: Whether the PR touches i18n files
+        value: ${{ jobs.prepare.outputs.i18n_files }}
+      matrix:
+        description: The build matrix
+        value: ${{ jobs.prepare.outputs.matrix }}
+    secrets: {}
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Scopes that can be queried using `contains(env.scopes, 'scope')`
+  scopes: >
+    ${{ inputs.matrix && 'node' || '' }}
+    ${{ inputs.changelog && 'files' || '' }}
+    ${{ inputs.i18n && 'files' || '' }}
+
+jobs:
+  prepare:
+    # If the calling job is named 'Setup', this will render as 'Setup / CI'
+    # E.g. 'Build / Setup / CI (pull_request)'
+    name: CI
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    permissions:
+      # 'read' avoids accidental access to draft releases.
+      contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      do_release: ${{ steps.check_release.outputs.do_release }}
+      changelog_comment: >-
+        ${{
+          steps.changed_files.outputs.changelog ||
+          steps.check_release.outputs.unreleased
+        }}
+      i18n_files: ${{ steps.changed_files.outputs.i18n }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout required files
+        if: contains(env.scopes, 'node')
+        uses: actions/checkout@v7
+        with:
+          ref: >
+            ${{
+              github.event_name == 'pull_request' &&
+              github.event.pull_request.head.sha ||
+              github.sha
+            }}
+          sparse-checkout: |
+            ci
+            package.json
+            package-lock.json
+          sparse-checkout-cone-mode: false
+
+      # Checkout PR metadata separately to support pull_request_target.
+      # Trusted CI tooling will deserialize these files as arbitrary user input.
+      - name: Checkout PR metadata
+        uses: actions/checkout@v7
+        with:
+          # We intentionally fetch untrusted user input here.
+          allow-unsafe-pr-checkout: true
+          ref: >
+            ${{
+              github.event.pull_request.head.sha ||
+              github.sha
+            }}
+          sparse-checkout: |
+            metadata.toml
+            stonecutter.settings.toml
+          sparse-checkout-cone-mode: false
+
+      - name: Install CI dependencies
+        if: contains(env.scopes, 'node')
+        run: npm ci --workspace ci --omit dev
+
+      - name: Get changed files
+        id: changed_files
+        if: contains(env.scopes, 'files')
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const result = await github.graphql(
+              `query($owner: String!, $repo: String!, $pr: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $pr) {
+                    files(first: 100) {
+                      nodes { path }
+                    }
+                  }
+                }
+              }`,
+              {
+                ...context.repo,
+                pr: context.payload.pull_request.number,
+              }
+            )
+            const files = result.repository.pullRequest.files.nodes
+            if (files.some(f => f.path === "CHANGELOG.md")) {
+              core.notice("This PR touches the changelog")
+              core.setOutput("changelog", "true")
+            }
+            if (files.some(f => f.path.startsWith("i18n/"))) {
+              core.notice("This PR touches i18n files")
+              core.setOutput("i18n", "true")
+            }
+            if (files.length === 100) {
+              core.warning("PR has ≥100 files — file detection may be incomplete")
+            }
+
+      - name: Read project version
+        id: version
+        run: |
+          version=$(yq .mod.version metadata.toml)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether this version is released
+        id: check_release
+        if: inputs.release || inputs.changelog
+        uses: actions/github-script@v9
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        with:
+          script: |
+            const tag = `v${process.env.VERSION}`
+            const push = context.eventName === "push"
+            try {
+              const { data } = await github.rest.repos.getReleaseByTag({ ...context.repo, tag })
+              core.notice(`${tag} already published (${data.published_at})`)
+            } catch (err) {
+              if (err.status !== 404) throw err
+              core.notice(`${tag} not published — creating release`)
+              core.setOutput("unreleased", "true")
+              if (push) core.setOutput("do_release", "true")
+            }
+
+      - name: Generate build matrix
+        id: matrix
+        if: inputs.matrix
+        env:
+          touches_changelog: ${{ steps.changed_files.outputs.changelog }}
+          unreleased: ${{ steps.check_release.outputs.unreleased }}
+          version: ${{ steps.version.outputs.version }}
+        run: |
+          args=(
+            --version "$version"
+            --output matrix.json
+          )
+
+          # If 'unreleased' is set, that means the version has been bumped, so do a release build.
+          if [ -n "$unreleased" ]; then
+            args+=( --release )
+          fi
+
+          # For PRs that touch the changelog or trigger a release, we build the changelog preview comment.
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && [ -n "$touches_changelog$unreleased" ]; then
+              args+=( --changelog )
+          fi
+
+          node ci/src/build_matrix.ts "${args[@]}"
+          echo "matrix=$(cat matrix.json)" >> "$GITHUB_OUTPUT"

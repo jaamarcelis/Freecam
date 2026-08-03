@@ -1,0 +1,12 @@
+[fcam.msg]
+enabled = "فری کم روشن شد."
+disabled = "فری کم خاموش شد."
+invalidRegex = "ترکیب regex غیرمعتبر: %s"
+
+  [fcam.msg.tripod]
+  open = "در حال باز کردن دوربین %s"
+  close = "در حال بستن دوربین %s"
+  reset = "ریست دوربین %s"
+
+  [fcam.msg.restricted]
+  server = "فری کم در این سرور محدود شده است (%s)."
