@@ -57,7 +57,7 @@ jobs:
     name: Upload
     runs-on: ubuntu-slim
     timeout-minutes: 10
-    if: github.event_name == 'push' || inputs.upload_sources || inputs.upload_translations
+    if: github.repository == 'MinecraftFreecam/Freecam' && (github.event_name == 'push' || inputs.upload_sources || inputs.upload_translations)
 
     permissions:
       contents: read
@@ -148,7 +148,7 @@ jobs:
     name: Download
     runs-on: ubuntu-slim
     timeout-minutes: 10
-    if: inputs.download_translations
+    if: github.repository == 'MinecraftFreecam/Freecam' && inputs.download_translations
 
     permissions:
       contents: write
