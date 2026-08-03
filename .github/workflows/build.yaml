@@ -110,7 +110,7 @@ jobs:
           ) >> "$GITHUB_STEP_SUMMARY"
 
   publish:
-    if: github.event_name != 'push' || needs.prepare.outputs.do_release
+    if: github.repository == 'MinecraftFreecam/Freecam' && (github.event_name != 'push' || needs.prepare.outputs.do_release)
     name: Publish
     uses: ./.github/workflows/publish.yaml
     needs:
