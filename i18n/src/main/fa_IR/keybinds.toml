@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.fcam]
 controls = "فری کم"
 
-[key.freecam]
+[key.fcam]
 toggle = "استفاده از فری کم"
 
-  [key.freecam.controlPlayer]
+  [key.fcam.controlPlayer]
   toggle = "هدایت بازیکن"
 
-  [key.freecam.tripod]
+  [key.fcam.tripod]
   reset = "بازگشت دوربین سه‌پایه به تنظیم اولیه"
 
-  [key.freecam.config]
+  [key.fcam.config]
   open = "تنظیم رابط کاربری"
 
-  [key.freecam.outlinePlayer]
+  [key.fcam.outlinePlayer]
   toggle = "پخش‌کننده طرح کلی را تغییر دهید"

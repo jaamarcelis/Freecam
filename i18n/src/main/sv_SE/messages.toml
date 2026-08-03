@@ -1,12 +1,12 @@
-[freecam.msg]
+[fcam.msg]
 enabled = "Freecam har aktiverats."
 disabled = "Freecam har inaktiverats."
 invalidRegex = "Ogiltig regex: %s"
 
-  [freecam.msg.tripod]
+  [fcam.msg.tripod]
   open = "Öppnar kamera %s"
   close = "Stänger kamera %s"
   reset = "Återställ kamera %s"
 
-  [freecam.msg.restricted]
+  [fcam.msg.restricted]
   server = "Freecam är begränsad på den aktuella servern (%s)."

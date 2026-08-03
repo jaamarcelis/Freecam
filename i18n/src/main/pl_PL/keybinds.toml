@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.fcam]
 controls = "Freecam"
 
-[key.freecam]
+[key.fcam]
 toggle = "Włącz/Wyłącz Freecam"
 
-  [key.freecam.controlPlayer]
+  [key.fcam.controlPlayer]
   toggle = "Kontroluj Gracza"
 
-  [key.freecam.tripod]
+  [key.fcam.tripod]
   reset = "Resetowanie Statywu"
 
-  [key.freecam.config]
+  [key.fcam.config]
   open = "GUI Konfiguracji"
 
-  [key.freecam.outlinePlayer]
+  [key.fcam.outlinePlayer]
   toggle = "Przełącz gracza obrysowego"

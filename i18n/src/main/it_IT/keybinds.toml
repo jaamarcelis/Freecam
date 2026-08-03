@@ -1,17 +1,17 @@
-[key.category.freecam]
+[key.category.fcam]
 controls = "Freecam"
 
-[key.freecam]
+[key.fcam]
 toggle = "Attiva/Disattiva la freecam"
 
-  [key.freecam.controlPlayer]
+  [key.fcam.controlPlayer]
   toggle = "Controlla il giocatore"
 
-  [key.freecam.tripod]
+  [key.fcam.tripod]
   reset = "Resetta treppiedi"
 
-  [key.freecam.config]
+  [key.fcam.config]
   open = "GUI di Configurazione"
 
-  [key.freecam.outlinePlayer]
+  [key.fcam.outlinePlayer]
   toggle = "Attiva/Disattiva Riproduttore Contorno"

@@ -1,7 +1,7 @@
 [key.category]
-freecam.controls = "Freecam"
+fcam.controls = "Freecam"
 
-[key.freecam]
+[key.fcam]
 toggle = "Toggle Freecam"
 controlPlayer.toggle = "Control Player"
 tripod.reset = "Reset Tripod"

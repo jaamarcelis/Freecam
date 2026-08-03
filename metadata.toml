@@ -5,12 +5,12 @@ group = "net.xolt.freecam"
 # Version can specify a semver pre-release, e.g. -alpha.1
 # Remember to run :changelog:patchChangelog when updating
 version = "1.4.1-beta.3"
-authors = ["hashalite", "Matt Sturgeon"]
+authors = ["RobinBr26"]
 license = "MIT"
-homepage = "https://minecraftfreecam.github.io"
-source = "https://github.com/MinecraftFreecam/Freecam"
-issues = "https://github.com/MinecraftFreecam/Freecam/issues"
-github_releases = "https://github.com/MinecraftFreecam/Freecam/releases"
+homepage = "https://github.com/RobinBr26/Freecam"
+source = "https://github.com/RobinBr26/Freecam"
+issues = "https://github.com/RobinBr26/Freecam/issues"
+github_releases = "https://github.com/RobinBr26/Freecam/releases"
 curseforge = "https://www.curseforge.com/minecraft/mc-mods/free-cam"
 modrinth = "https://modrinth.com/mod/freecam"
 crowdin = "https://crowdin.com/project/freecam"
