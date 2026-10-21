@@ -2,9 +2,9 @@
 name = "Freecam"
 id = "freecam"
 group = "net.xolt.freecam"
-# Version can specify a semver pre-release, e.g. -alpha.1
-# Remember to run :changelog:patchChangelog when updating
-version = "1.4.1-beta.2"
+# Bump version using `knope bump-version`
+# Optionally pass `--prerelease-label` with `alpha`, `beta`, `rc`, etc
+version = "1.5.1"
 authors = ["hashalite", "Matt Sturgeon"]
 license = "MIT"
 homepage = "https://minecraftfreecam.github.io"

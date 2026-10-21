@@ -1,7 +1,7 @@
-val isCi = System.getenv("CI") == "true"
-gradle.startParameter.isParallelProjectExecutionEnabled = !isCi
-gradle.startParameter.isBuildCacheEnabled = !isCi
-gradle.startParameter.isConfigureOnDemand = !isCi
+// Improve dependency graph ordering
+// https://docs.gradle.org/9.7.0/userguide/upgrading_version_9.html#dependency_resolution_ordering
+// TODO: remove when it's the default (in Gradle 10)
+enableFeaturePreview("ENHANCED_GRAPH_ORDERING")
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -55,8 +55,6 @@ stonecutter {
     create(rootProject, file("stonecutter.settings.toml"))
 }
 
-include("i18n")
-
-includeBuild("changelog")
+include("branding", "config", "i18n")
 
 rootProject.name = "freecam"

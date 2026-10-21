@@ -8,7 +8,7 @@ plugins {
     id("freecam.shadow") apply false
 }
 
-stonecutter active "26.2"
+stonecutter active "26.3"
 
 stonecutter parameters {
     val meta = node.project.meta
@@ -17,6 +17,19 @@ stonecutter parameters {
     meta.deps.asSequence()
         .filter { (key, value) ->
             value.isNotBlank()
+        }
+        .map { (key, value) ->
+            key to when (key) {
+                // Simplify NeoForge PR versions for semver compatibility
+                "neoforge_version" ->
+                    "(.+)-pr-(\\d+)-.*".toRegex()
+                        .matchEntire(value)
+                        ?.destructured
+                        ?.let { (base, pr) ->
+                            "$base-pr-$pr"
+                        } ?: value
+                else -> value
+            }
         }
         .filter { (key, value) ->
             try {
@@ -47,17 +60,6 @@ stonecutter parameters {
         else -> JavaVersion.VERSION_1_8
     }.majorVersion
 
-    dependencies["gson"] = when {
-        current.parsed >= "1.21.11" -> "2.13.2"
-        current.parsed >= "1.21.4" -> "2.11.0"
-        current.parsed >= "1.20.2" -> "2.10.1"
-        current.parsed >= "1.19.3" -> "2.10"
-        current.parsed >= "1.18.2" -> "2.8.9"
-        current.parsed >= "1.18" -> "2.8.8"
-        current.parsed >= "1.12" -> "2.8.0"
-        else -> "2.2.4"
-    }
-
     // Experimental cloth-config dependencies API added in v8.4
     // Forward-ported to newer versions but not backported to older versions.
     meta.deps["cloth"]?.let { version ->
@@ -65,8 +67,8 @@ stonecutter parameters {
     }
 
     replacements {
-        string(current.parsed >= "26.2") {
-            replace("renderHandsWithItems", "submitHandsWithItems")
+        string(current.parsed >= "26.3-0") {
+            replace("InputConstants.Type.KEYSYM", "InputConstants.Type.KEYBOARD")
         }
         string(current.parsed >= "26.0") {
             replace("accessWidener v2 named", "accessWidener v2 official")
@@ -77,12 +79,6 @@ stonecutter parameters {
         }
         string(current.parsed >= "1.21.11") {
             replace("ResourceLocation", "Identifier")
-            replace("input.jumping", "input.keyPresses.jump()")
-            replace("input.shiftKeyDown", "input.keyPresses.shift()")
-            replace("input.up", "input.keyPresses.forward()")
-            replace("input.down", "input.keyPresses.backward()")
-            replace("input.right", "input.keyPresses.right()")
-            replace("input.left", "input.keyPresses.left()")
         }
         string(current.parsed >= "1.20") {
             replace("canEnterPose(", "wouldNotSuffocateAtTargetPose(")
@@ -96,22 +92,13 @@ stonecutter parameters {
     }
 }
 
-val releaseNotes by configurations.registering {
-    isCanBeConsumed = false
-    isCanBeResolved = true
-}
-
 dependencies {
-    releaseNotes(project(":changelog", configuration = "releaseNotes"))
-}
-
-tasks.generateReleaseMetadata {
-    changelog = releaseNotes.map { it.singleFile.readText() }
-
-    // FIXME: the :changelog outgoing artifact should encode its dependencies,
-    //  this project shouldn't need to know about the underlying task.
-    //  See https://github.com/gradle/gradle/issues/24131
-    dependsOn(gradle.includedBuild("changelog").task(":getReleaseNotes"))
+    sequenceOf("fabric", "forge", "neoforge")
+        .mapNotNull { sc.tree[it] }
+        .flatMap { it.nodes }
+        .forEach {
+            releaseMetadata(project(it.project.path, configuration = "releaseMetadataElements"))
+        }
 }
 
 tasks.named<Wrapper>("wrapper") {

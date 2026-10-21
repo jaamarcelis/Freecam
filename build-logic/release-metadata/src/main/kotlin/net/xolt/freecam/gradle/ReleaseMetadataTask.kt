@@ -10,9 +10,8 @@ import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import net.xolt.freecam.model.*
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.RegularFile
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.RegularFileProperty
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
@@ -29,9 +28,6 @@ abstract class ReleaseMetadataTask : DefaultTask() {
         ignoreUnknownKeys = true
         prettyPrint = true
     }
-
-    @get:Input
-    abstract val changelog: Property<String>
 
     @get:Input
     abstract val version: Property<String>
@@ -52,7 +48,7 @@ abstract class ReleaseMetadataTask : DefaultTask() {
     abstract val githubTag: Property<String>
 
     @get:InputFiles
-    abstract val projectMetadataFiles: ListProperty<RegularFile>
+    abstract val projectMetadataFiles: ConfigurableFileCollection
 
     @get:OutputFile
     abstract val outputFile: RegularFileProperty
@@ -67,8 +63,6 @@ abstract class ReleaseMetadataTask : DefaultTask() {
         curseforgeId.convention(meta.map { it.curseforgeId.toLong() })
         modrinthId.convention(meta.map { it.modrinthId })
         githubTag.convention(meta.map { "v${it.releaseVersion}" })
-        changelog.convention("")
-        projectMetadataFiles.convention(emptyList())
         outputFile.convention(version.flatMap {
             project.layout.buildDirectory.file("metadata/release-$it.json")
         })
@@ -80,7 +74,6 @@ abstract class ReleaseMetadataTask : DefaultTask() {
             modVersion = version.get(),
             releaseType = releaseType.get(),
             displayName = displayName.get(),
-            changelog = changelog.get(),
             versions = aggregateVersionFiles(),
             platforms = Platforms(
                 curseforge = Platforms.Curseforge(curseforgeId.get().toULong()),
@@ -92,9 +85,8 @@ abstract class ReleaseMetadataTask : DefaultTask() {
 
     @OptIn(ExperimentalSerializationApi::class)
     private fun aggregateVersionFiles() = runBlocking {
-        projectMetadataFiles.get()
+        projectMetadataFiles
             .asSequence()
-            .map { it.asFile }
             .filter { it.exists() }
             .map { file ->
                 async(Dispatchers.IO) { json.decodeFromStream<ProjectReleaseMetadata>(file.inputStream()) }

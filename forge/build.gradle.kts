@@ -3,9 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransfor
 import com.github.jengelman.gradle.plugins.shadow.transformers.PreserveFirstFoundResourceTransformer
 import io.github.z4kn4fein.semver.constraints.toMavenFormat
 import kotlinx.serialization.json.*
-import net.neoforged.moddevgradle.legacyforge.internal.MinecraftMappings
 import net.xolt.freecam.gradle.ForgeModsTomlTask
-import net.xolt.freecam.shadow.tasks.NormalizeShadowBundleTask
 import net.xolt.freecam.shadow.transformers.ModsTomlTransformer
 
 plugins {
@@ -23,11 +21,10 @@ val forgeVersion = requireNotNull(meta.deps["forge_version"]) {
     "Missing deps.forge_version for ${project.path}"
 }
 
+val supportsJarJar = sc.eval(forgeVersion, ">= 40.1.60")
+
 val refmapName = "mixins.freecam.refmap.json"
-val mixinConfigNames = listOf(
-    "freecam-common.mixins.json",
-    "freecam-forge.mixins.json",
-)
+val mixinConfigNames = listOf("freecam-common.mixins.json", "freecam-forge.mixins.json")
 
 stonecutter replacements {
     string(sc.eval(forgeVersion, ">= 41")) {
@@ -59,20 +56,16 @@ legacyForge {
     }
 }
 
-/**
- * Include a dependency in the `shadowJar` task.
- * For third-party libraries, use [include] instead to take advantage of Forge's JarJar system.
- *
- * We avoid using the default `shadow` configuration, because it is pre-configured to inherit from other configurations.
- */
-val bundle by configurations.creating {
-    isCanBeResolved = true
+// `bundle` contains internal subprojects whose classes are part of Freecam itself (e.g. `:config`).
+// `finalBundle` extends `bundle` with external dependencies, when Jar-in-Jar is not available (e.g. `cloth-config`).
+configurations.create("finalBundle") {
     isCanBeConsumed = false
+    isCanBeResolved = true
     isTransitive = false
-
-    attributes {
-        attribute(MinecraftMappings.ATTRIBUTE, objects.named(MinecraftMappings.NAMED))
-    }
+    extendsFrom(configurations.bundle)
+}.also { cfg ->
+    // Override the `normalizeShadowBundle` task's input
+    tasks.normalizeShadowBundle { inputFiles = cfg }
 }
 
 /**
@@ -87,10 +80,10 @@ val bundle by configurations.creating {
  * @param shadowJarConfig configuration for the `shadowJar` task, applied when Jar-in-Jar is not available
  */
 fun DependencyHandler.include(dependencyNotation: Any, shadowJarConfig: ShadowJar.() -> Unit) {
-    if (sc.eval(forgeVersion, ">=40.1.60")) {
+    if (supportsJarJar) {
         jarJar(dependencyNotation)
     } else {
-        add(bundle.name, dependencyNotation)
+        add("finalBundle", dependencyNotation)
         tasks.shadowJar { shadowJarConfig() }
     }
 }
@@ -100,6 +93,19 @@ dependencies {
     annotationProcessor(libs.sponge.mixin) {
         artifact { classifier = "processor" }
     }
+
+    annotationProcessor(libs.mixinextras.common)
+    implementation(libs.mixinextras.common)
+    // Bundle the MixinExtras we build against
+    include(libs.mixinextras.common) {
+        relocate("com.llamalad7.mixinextras", "${meta.group}.shadowed.mixinextras")
+    }
+
+    // Forge's ModListScreen renders the Mod logo at 50px high
+    // We use a 100px icon to scale well.
+    extraResources(project(":branding", configuration = "icon_100"))
+    bundle(api(project(":config"))!!)
+
     sc.node.sibling("cloth-config")?.let {
         val clothVersion = requireNotNull(meta.deps["cloth"]) {
             "Missing deps.cloth for ${project.path}"
@@ -138,6 +144,11 @@ legacyForge {
         register("client") {
             client()
             ideName = "Forge Client (${project.path})"
+
+            if (!supportsJarJar) {
+                // FIXME: ModDevGradle does not make MixinExtras available to IDE runs, so explicitly add it:
+                additionalRuntimeClasspathConfiguration.dependencies.add(libs.mixinextras.common.get())
+            }
         }
 //        register("server") {
 //            server()
@@ -148,16 +159,20 @@ legacyForge {
     mods {
         register(meta.id) {
             sourceSet(sourceSets.main.get())
+
+            // Mark internal dependencies as part of the mod, so their classes are loaded in dev runs.
+            sourceSet(sourceSets.create("bundled") {
+                sequenceOf(java, resources).forEach {
+                    it.setSrcDirs(emptySet<String>())
+                }
+                output.dir(configurations.bundle)
+            })
         }
     }
 }
 
 val mixinRefmap: Provider<RegularFile> = mixin.add(sourceSets.main.get(), refmapName)
 mixinConfigNames.forEach(mixin::config)
-
-sourceSets.main {
-    resources.srcDir("src/generated/resources")
-}
 
 tasks.register<Copy>("buildAndCollect") {
     group = "build"
@@ -184,7 +199,7 @@ val generateModsTomlTask = tasks.register<ForgeModsTomlTask>("generateModsToml")
             description = meta.description
             authors = meta.authors.joinToString(", ")
             displayURL = meta.homepageUrl.toString()
-            logoFile = "icon.png"
+            logoFile = "logo.png"
             logoBlur = true
         }
 
@@ -208,16 +223,24 @@ val generateModsTomlTask = tasks.register<ForgeModsTomlTask>("generateModsToml")
 }
 
 tasks.processResources {
+    val mixinextras = libs.versions.mixinextras.get()
+
     from(generateModsTomlTask) {
         into("META-INF")
     }
 
+    rename("icon-100.png", "logo.png")
+
     filesMatching("freecam-forge.mixins.json") {
-        expand("mixinCompatLevel" to "JAVA_${meta.javaVersion}")
+        expand(
+            "mixinCompatLevel" to "JAVA_${meta.javaVersion}",
+            "mixinExtrasMinVersion" to mixinextras,
+        )
     }
 
     inputs.properties(
         "java_version" to meta.javaVersion,
+        "mixinextras_version" to mixinextras,
         "mixinConfigs" to mixinConfigNames,
         "mixinRefmap" to refmapName,
     )
@@ -236,8 +259,6 @@ tasks.processResources {
 }
 
 tasks.jar {
-    archiveClassifier = "minimal"
-
     manifest.attributes(
         "MixinConfigs" to mixinConfigNames.joinToString(","),
     )
@@ -245,23 +266,9 @@ tasks.jar {
     finalizedBy("reobfJar")
 }
 
-val normalizeShadowBundleTask = tasks.register<NormalizeShadowBundleTask>("normalizeShadowBundle") {
-    description = "Normalize dependencies before bundling with Shadow"
-    inputFiles.from(bundle)
-}
-
 tasks.shadowJar {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-    failOnDuplicateEntries = true
-    archiveClassifier = null
-
-    // Don't use the `shadow` configuration
-    configurations = emptySet()
-    from(normalizeShadowBundleTask.map { it.outputFiles })
     from(mixinRefmap)
     from(tasks.jarJar)
-
-    exclude("fabric.mod.json")
 
     filesMatching("META-INF/mods.toml") {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -285,20 +292,11 @@ tasks.shadowJar {
         include("pack.mcmeta")
     }
 
+    mergeServiceFiles()
+
     finalizedBy("reobfShadowJar")
 }
 
 obfuscation {
     reobfuscate(tasks.shadowJar, sourceSets.main.get())
-}
-
-configurations {
-    apiElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(tasks.shadowJar)
-    }
-    runtimeElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(tasks.shadowJar)
-    }
 }

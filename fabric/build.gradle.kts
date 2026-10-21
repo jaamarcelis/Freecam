@@ -1,10 +1,14 @@
+import net.fabricmc.loom.configuration.IncludeConfigurations.nestJars
 import net.fabricmc.loom.task.FabricModJsonV1Task
-import org.gradle.kotlin.dsl.sc
+import net.fabricmc.loom.task.MigrateClassTweakerMappingsTask
+import net.fabricmc.loom.task.RemapJarTask
+import net.fabricmc.loom.task.ValidateAccessWidenerTask
 
 plugins {
     alias(libs.plugins.fletchingtable.fabric)
     id("freecam.loom-adapter")
     id("freecam.loaders")
+    id("freecam.shadow")
 }
 
 fletchingTable {
@@ -46,7 +50,16 @@ val fabricApiVersion = requireNotNull(meta.deps["fabric_api"]) {
 dependencies {
     minecraft("com.mojang:minecraft:${meta.mc}")
     loomAdapter.applyMojangMappings()
-    modImplementation(libs.fabric.loader)
+    modImplementation(libs.fabric.loader) {
+        exclude(module = "mixinextras-fabric")
+    }
+
+    // Bundle the MixinExtras we build against
+    libs.mixinextras.fabric.let { dep ->
+        implementation(dep)
+        annotationProcessor(dep)
+        include(dep)
+    }
 
     fabricApiModules.forEach { name ->
         include(modImplementation(fabricApi.module(name, fabricApiVersion))!!)
@@ -62,9 +75,12 @@ dependencies {
         exclude(module = "fabric-loader")
     }
 
+    // ModMenu renders the icon at (64px * GUI_SCALE)
+    extraResources(project(":branding", configuration = "icon_128"))
+    bundle(api(project(":config"))!!)
+
     sc.node.sibling("cloth-config")?.let {
-        include(it.project)
-        api(project(path = it.project.path, configuration = "namedElements"))
+        bundle(api(project(path = it.project.path, configuration = "namedElements"))!!)
 
         include(modApi("me.shedaniel.cloth:cloth-config-fabric") {
             version { prefer(meta.deps["cloth"]!!) }
@@ -75,39 +91,61 @@ dependencies {
 }
 
 loom {
-    // Loom reads the AW during configuration, so the :stonecutterGenerate one is too late
-    // We still use the task-generated AW during the actual build
+    // Loom unfortunately uses accessWidenerPath for two different purposes:
+    // - AccessWidenerJarProcessor eagerly reads it while constructing parts of Loom's decompilation pipeline.
+    // - Other tasks use it as their default input.
+    //
+    // The first requires an eagerly-written file, while the second should consume the task-generated access widener.
+    //
+    // We cannot easily override AccessWidenerJarProcessor, so we set the global property to an eagerly-written file
+    // and explicitly configure loom's tasks below.
     accessWidenerPath = provider {
         stonecutter.process(
             file = rootDir.resolve("common/src/main/resources/freecam.accesswidener"),
-            destination = "build/generated-eval/freecam.accesswidener"
+            destination = "generated-eval/freecam.accesswidener"
         )
     }
 
     runs {
         getByName("client") {
             client()
-            configName = "Fabric Client"
-            ideConfigGenerated(true)
+            displayName = "Fabric Client"
+            generateRunConfig = true
         }
         getByName("server") {
 //            server()
-//            configName = "Fabric Server"
-//            ideConfigGenerated(true)
-            ideConfigGenerated(false)
+//            displayName = "Fabric Server"
+//            generateRunConfig = true
+            generateRunConfig = false
         }
     }
 }
 
+// Since we set `loom.accessWidenerPath` to an eval-time written AW file above,
+// explicitly configure loom's tasks to use the task-generated AW file.
+tasks.processResources.map { it.destinationDir.resolve("freecam.accesswidener") }.let { awFile ->
+    tasks.withType<ValidateAccessWidenerTask> { accessWidener = awFile }
+    tasks.withType<MigrateClassTweakerMappingsTask> { inputFile = awFile }
+}
+
+val finalJarTask = if (loomAdapter.hasMappings) tasks.named<RemapJarTask>("remapJar") else tasks.shadowJar
+
 tasks.register<Copy>("buildAndCollect") {
     group = "build"
-    from(loomAdapter.modJar.map { it.archiveFile })
+    from(finalJarTask.flatMap { it.archiveFile })
     into(rootProject.layout.buildDirectory.file("libs/${meta.buildDir}"))
     dependsOn(tasks.build)
 }
 
+tasks.generateReleaseMetadata {
+    artifactFileName = finalJarTask.flatMap { it.archiveFileName }
+}
+
 tasks {
-    val generateModJson by registering(FabricModJsonV1Task::class) {
+    val modJsonTask = register<FabricModJsonV1Task>("generateModJson") {
+        group = "fabric"
+        description = "Generate fabric.mod.json"
+
         outputFile = layout.buildDirectory.dir("generated/mod-json").map {
             it.file("fabric.mod.json")
         }
@@ -134,7 +172,9 @@ tasks {
             }
 
             depends("minecraft", meta.reqs["mc"]?.toString() ?: error("${project.path} missing reqs.mc"))
-            depends("fabricloader", meta.reqs["fabric_loader"]?.toString() ?: error("${project.path} missing reqs.fabric_loader"))
+            // Match MixinExtras' fabric-loader requirement, because fabric-loader provides mixin itself
+            // https://github.com/LlamaLad7/MixinExtras/blob/0.5.5/platform/fabric/src/main/resources/fabric.mod.json#L23
+            depends("fabricloader", ">=0.14.25")
             fabricApiModules.forEach { depends(it, "*") }
             recommends("modmenu", "*")
 
@@ -158,16 +198,34 @@ tasks {
     }
 
     processResources {
-        from(generateModJson)
+        val mixinextras = libs.versions.mixinextras.get()
+
+        from(modJsonTask)
+
+        rename("icon-128.png", "icon.png")
 
         filesMatching("freecam-fabric.mixins.json5") {
-            expand("mixinCompatLevel" to "JAVA_${meta.javaVersion}")
+            expand(
+                "mixinCompatLevel" to "JAVA_${meta.javaVersion}",
+                "mixinExtrasMinVersion" to mixinextras,
+            )
         }
 
-        inputs.properties("java_version" to meta.javaVersion)
+        inputs.properties(
+            "java_version" to meta.javaVersion,
+            "mixinextras_version" to mixinextras,
+        )
     }
 
-    generateReleaseMetadata {
-        artifactFileName = loomAdapter.modJar.flatMap { it.archiveFileName }
+    if (loomAdapter.hasMappings) {
+        shadowJar {
+            archiveClassifier = "named"
+        }
+        named<RemapJarTask>("remapJar") {
+            inputFile = shadowJar.flatMap { it.archiveFile }
+            archiveClassifier = null
+        }
+    } else {
+        nestJars(project, shadowJar, configurations.include)
     }
 }

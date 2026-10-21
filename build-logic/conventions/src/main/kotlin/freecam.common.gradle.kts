@@ -56,9 +56,10 @@ repositories {
         filter { includeGroupAndSubgroups("org.spongepowered") }
     }
     exclusiveContent {
-        forRepository {
-            maven("https://maven.shedaniel.me") { name = "Shedaniel" }
-        }
+        forRepositories(
+            maven("https://maven.shedaniel.me") { name = "Shedaniel" },
+            maven("https://maven.architectury.dev" ) { name = "Architectury" },
+        )
         filter { includeGroup("me.shedaniel.cloth") }
     }
     exclusiveContent {
@@ -68,9 +69,35 @@ repositories {
         )
         filter { includeGroup("com.terraformersmc") }
     }
+
+    // Manually register the LWJGL repository. Otherwise, Loom tries to inject it
+    // dynamically, causing premature repository resolution errors.
+    findByName("MavenCentralLWJGL") ?: exclusiveContent {
+        forRepositories(mavenCentral {
+            name = "MavenCentralLWJGL"
+            content { includeGroup("org.lwjgl") }
+        })
+        filter { includeGroup("org.lwjgl") }
+    }
+
+    // Fletching Table automatically adds KikuGui repositories.
+    // We apply content filtering to prevent an outage affecting unrelated dependencies.
+    withType<MavenArtifactRepository>().configureEach {
+        if (url.host == "maven.kikugie.dev") {
+            content { includeGroupAndSubgroups("dev.kikugie") }
+        }
+    }
+
     mavenCentral()
 }
 
+val extraResources = configurations.create("extraResources") {
+    description = "Additional resources added to processResources."
+    isCanBeConsumed = false
+    isCanBeResolved = true
+}
+
 tasks.processResources {
+    from(extraResources)
     dependsOn(tasks.named("stonecutterGenerate"))
 }

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.fletchingtable.neoforge)
     id("freecam.loaders")
     id("freecam.fml")
+    id("freecam.shadow")
 }
 
 val mixinConfigNames = listOf(
@@ -29,6 +30,26 @@ neoForge {
 }
 
 dependencies {
+    // Bundle the MixinExtras we build against
+    implementation(libs.mixinextras.neoforge)
+    jarJar(libs.mixinextras.neoforge) {
+        version?.let {
+            version {
+                prefer(it)
+                strictly("[$it,)")
+            }
+        }
+    }
+
+    // NeoForge's ModListScreen renders the Mod logo/banner at 50px high
+    // We use a 100px icon to scale well.
+    extraResources(project(":branding", configuration = "icon_100"))
+    if (sc.current.parsed >= "26.2") {
+        // In 26.2 NeoForge introduced a new ModListScreen, which shows a 24px icon.
+        // We use a 96px icon because it is a multiple of 24.
+        extraResources(project(":branding", configuration = "icon_96"))
+    }
+    bundle(api(project(":config"))!!)
     sc.node.sibling("cloth-config")?.let {
         val clothVersion = requireNotNull(meta.deps["cloth"]) {
             "Missing deps.cloth for ${project.path}"
@@ -36,7 +57,7 @@ dependencies {
         val clothConstraint = requireNotNull(meta.reqs["cloth"]) {
             "Missing reqs.cloth for ${project.path}"
         }
-        jarJar(implementation(project(path = it.project.path, configuration = "namedElements")) as Any)
+        bundle(implementation(project(path = it.project.path, configuration = "namedElements"))!!)
         jarJar(implementation("me.shedaniel.cloth:cloth-config-neoforge") {
             version {
                 prefer(clothVersion)
@@ -67,19 +88,27 @@ neoForge {
     mods {
         register(meta.id) {
             sourceSet(sourceSets.main.get())
+
+            // Mark internal dependencies as part of the mod, so their classes are loaded in dev runs.
+            sourceSet(sourceSets.create("bundled") {
+                sequenceOf(java, resources).forEach {
+                    it.setSrcDirs(emptySet<String>())
+                }
+                output.dir(configurations.bundle)
+            })
         }
     }
 }
 
-sourceSets.main {
-    resources.srcDir("src/generated/resources")
-}
-
 tasks.register<Copy>("buildAndCollect") {
     group = "build"
-    from(tasks.jar.map { it.archiveFile })
+    from(tasks.shadowJar.flatMap { it.archiveFile })
     into(rootProject.layout.buildDirectory.file("libs/${meta.buildDir}"))
     dependsOn(tasks.build)
+}
+
+tasks.generateReleaseMetadata {
+    artifactFileName = tasks.shadowJar.flatMap { it.archiveFileName }
 }
 
 tasks.named("createMinecraftArtifacts") {
@@ -100,8 +129,15 @@ val generateModsTomlTask = tasks.register<NeoForgeModsTomlTask>("generateModsTom
             description = meta.description
             authors = meta.authors.joinToString(", ")
             displayURL = meta.homepageUrl.toString()
-            logoFile = "icon.png"
-            logoBlur = true
+            if (sc.current.parsed >= "26.2") {
+                bannerFile = "banner.png"
+                iconFile = "icon.png"
+                iconBlur = true
+            }
+            if (sc.current.parsed <= "26.2") {
+                logoFile = "banner.png"
+                logoBlur = true
+            }
         }
 
         dependency(meta.id, "minecraft") {
@@ -126,13 +162,32 @@ val generateModsTomlTask = tasks.register<NeoForgeModsTomlTask>("generateModsTom
 }
 
 tasks.processResources {
+    val mixinextras = libs.versions.mixinextras.get()
+
     from(generateModsTomlTask) {
         into("META-INF")
     }
 
+    // For 26.2+, we use a 96px icon for the mod list icon (24px * 4)
+    rename("icon-96.png", "icon.png")
+
+    // For now, we use the 100px icon for the logo/banner
+    // TODO: introduce a dedicated banner
+    rename("icon-100.png", "banner.png")
+
     filesMatching("freecam-neoforge.mixins.json") {
-        expand("mixinCompatLevel" to "JAVA_${meta.javaVersion}")
+        expand(
+            "mixinCompatLevel" to "JAVA_${meta.javaVersion}",
+            "mixinExtrasMinVersion" to mixinextras,
+        )
     }
 
-    inputs.properties("java_version" to meta.javaVersion)
+    inputs.properties(
+        "java_version" to meta.javaVersion,
+        "mixinextras_version" to mixinextras,
+    )
+}
+
+tasks.shadowJar {
+    from(tasks.jarJar)
 }

@@ -1,3 +1,6 @@
+import net.fabricmc.loom.task.MigrateClassTweakerMappingsTask
+import net.fabricmc.loom.task.ValidateAccessWidenerTask
+
 plugins {
     alias(libs.plugins.fletchingtable.fabric)
     id("freecam.loom-adapter")
@@ -12,12 +15,18 @@ fletchingTable {
 }
 
 loom {
-    // Loom reads the AW during configuration, so the :stonecutterGenerate one is too late
-    // We still use the task-generated AW during the actual build
+    // Loom unfortunately uses accessWidenerPath for two different purposes:
+    // - AccessWidenerJarProcessor eagerly reads it while constructing parts of Loom's decompilation pipeline.
+    // - Other tasks use it as their default input.
+    //
+    // The first requires an eagerly-written file, while the second should consume the task-generated access widener.
+    //
+    // We cannot easily override AccessWidenerJarProcessor, so we set the global property to an eagerly-written file
+    // and explicitly configure loom's tasks below.
     accessWidenerPath = provider {
         stonecutter.process(
             file = rootDir.resolve("common/src/main/resources/freecam.accesswidener"),
-            destination = "build/generated-eval/freecam.accesswidener"
+            destination = "generated-eval/freecam.accesswidener"
         )
     }
 
@@ -26,7 +35,7 @@ loom {
     }
 }
 
-val i18nResources by configurations.registering {
+val i18nResources = configurations.register("i18nResources") {
     description = "The i18n project language files"
     isCanBeResolved = true
     isCanBeConsumed = false
@@ -39,20 +48,67 @@ val i18nResources by configurations.registering {
 dependencies {
     minecraft("com.mojang:minecraft:${meta.mc}")
     loomAdapter.applyMojangMappings()
-    modCompileOnly(libs.fabric.loader)
+    // Needed for @Environment annotations and EnvType enum, which are added to Minecraft by loom.
+    modCompileOnly(libs.fabric.loader) {
+        exclude(module = "sponge-mixin")
+        exclude(module = "mixinextras-fabric")
+    }
+    compileOnly(libs.sponge.mixin)
+    compileOnly(libs.mixinextras.common)
+    annotationProcessor(libs.mixinextras.common)
+    compileOnly(project(":config"))
     i18nResources(project(":i18n"))
 }
 
+// Since we set `loom.accessWidenerPath` to an eval-time written AW file above,
+// explicitly configure loom's tasks to use the task-generated AW file.
+tasks.processResources.map { it.destinationDir.resolve("freecam.accesswidener") }.let { awFile ->
+    tasks.withType<ValidateAccessWidenerTask> { accessWidener = awFile }
+    tasks.withType<MigrateClassTweakerMappingsTask> { inputFile = awFile }
+}
+
 tasks.processResources {
+    val mixinextras = libs.versions.mixinextras.get()
+
     from(i18nResources) {
         into("assets/${meta.id}/lang")
     }
 
     filesMatching("freecam-common.mixins.json5") {
-        expand("mixinCompatLevel" to "JAVA_${meta.javaVersion}")
+        expand(
+            "mixinCompatLevel" to "JAVA_${meta.javaVersion}",
+            "mixinExtrasMinVersion" to mixinextras,
+        )
     }
 
-    inputs.properties("java_version" to meta.javaVersion)
+    inputs.properties(
+        "java_version" to meta.javaVersion,
+        "mixinextras_version" to mixinextras,
+    )
 
     duplicatesStrategy = DuplicatesStrategy.FAIL
+}
+
+configurations.create("generatedSourcesElements") {
+    description = "Generated sources from the common project."
+    isCanBeConsumed = true
+    isCanBeResolved = false
+
+    artifacts {
+        add(name, tasks.stonecutterGenerate.map { it.destinationDir }) {
+            builtBy(tasks.stonecutterGenerate)
+        }
+    }
+}
+
+configurations.create("processedResourcesElements") {
+    description = "Processed resources from the common project."
+    isCanBeConsumed = true
+    isCanBeResolved = false
+
+    artifacts {
+        add(name, tasks.processResources.map { it.destinationDir }) {
+            builtBy(tasks.processResources)
+        }
+    }
 }
